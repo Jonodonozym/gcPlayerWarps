@@ -1,0 +1,50 @@
+Settings:
+  warpCost: 100000
+  disabledWorlds:
+    - world_nether
+    - world_the_end
+  maxLoreSize: 90
+  log: true
+  
+  
+# unsafeBlock: Blocks a player's teleport will be denied to, if they
+#              were to land on any of the blocks listed. eg: lava,
+#              water, hopper. Only checks is SafeWarp is true.
+SafeWarp:
+  enabled: true
+  unsafeBlocks:
+    - 8
+    - 9
+    - 10
+    - 11
+    - 70
+    - 71
+    - 147
+    - 148
+    
+# Rent is for Prison where we need to drain money from players. Rent is per day, a warp should be deleted if a player has no money. This check only has to run once per day.
+Rent:
+  enabled: true
+  rentCost: 10000
+  freeDays: 5
+  maxDays: 50
+  lastCheck: 1504398079558
+  
+# Speaks for itself
+Teleport:
+  cooldown: 10
+  warmup: 5
+  cancelOnMovement: true
+    
+    
+# Hooks into griefprevention so that players can only set their own warps in their own claimed area.
+GriefPrevetion:
+  enabled: false
+  
+# Hooks into PlotSquared so that players can only set their warp on their own plot.
+PlotSquared:
+  enabled: false
+  
+# Hooks into ASkyBlock so that players can only set their warp on their own island.
+ASkyBlock:
+  enabled: false

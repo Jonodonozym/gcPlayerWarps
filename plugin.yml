@@ -1,0 +1,126 @@
+main: jdz.pwarp.PlayerWarpPlugin
+name: GCPlayerWarps
+version: 1.0
+author: Jonodonozym
+description: Allows players to create warps for public use
+softdepend: [ASkyBlock,PlotSquared,GriefPrevention]
+depend: [Vault, JBU]
+
+commands:
+  pwarp:
+    description: Commands for the player warp plugin
+    aliases: [pw]
+    usage: |
+      Use /help pwarp [subcommand] for more information
+      /pwarp setwarp <name> - sets a warp to your current location
+      /pwarp delwarp <name> - removes a warp
+      /pwarp list <player> - lists a player's warps
+      /pwarp gui - opens a GUI menu for the Player Warps plugin
+      /pwarp setlore <name> <lore> - sets the lore for a warp
+      /pwarp rent pay <name> <days> - pays rent on one of your warps
+      /pwarp rent payall <days> - pays rent on all of your warps
+      /pwarp rent list - shows the amount of rent days left for your warps
+    pwarp setwarp:
+      description: Creates a warp, or moves an existing one, to your location
+      usage: /pwarp setwarp <name of the warp>
+      permission: pwarp.setwarp
+      permission-message: You don't have the permissions to do that!
+    pwarp delwarp:
+      description: Deletes a warp. You don't get any refunds for the cost or rent already paid
+      usage: /pwarp delwarp <name of the warp>
+      permission: pwarp.delwarp
+      permission-message: You don't have the permissions to do that!
+    pwarp list:
+      description: Lists the warps that a player has
+      usage: /pwarp list <name of the player>
+      permission: pwarp.list
+      permission-message: You don't have the permissions to do that!
+    pwarp gui:
+      description: Displays a GUI menu for choosing player warps or changing your own warps
+      usage: /pwarp gui
+      permission: pwarp.gui
+      permission-message: You don't have the permissions to do that!
+    pwarp setlore:
+      description: Lets you set lore for your warp
+      usage: /pwarp setlore <name> <lore>
+      permission: pwarp.setlore
+      permission-message: You don't have the permissions to do that!
+    
+    pwarp rent pay:
+      description: Pays rent for a single warp for the specified number of days, up to a maximum
+      usage: /pwarp rent pay <name> <days>
+      permission: pwarp.rent
+      permission-message: You don't have the permissions to do that!
+    pwarp rent payAll:
+      description: Pays rent for all of your warps for the specified number of days, up to a maximum
+      usage: /pwarp rent payAll <days>
+      permission: pwarp.rent
+      permission-message: You don't have the permissions to do that!
+    pwarp rent list:
+      description: Lists the amount of rent days left for your warps
+      usage: /pwarp rent list
+      permission: pwarp.rent
+      permission-message: You don't have the permissions to do that!
+    
+  awarp:
+    description: Admin Commands for the player warp plugin
+    usage: |
+      Use /help awarp [subcommand] for more information
+      /pwarp setwarp <player> <name> - sets a player's warp to your current location
+      /pwarp delwarp <player> <name> - removes a player's warp
+      /pwarp rent list <player> - shows the amount of rent days left for a player's warps
+    permission: pwarp.admin
+    permission-message: You don't have the permissions to do that!
+    awarp setwarp:
+      description: Sets a player's warp to your current location
+      usage: /awarp setwarp <player's name> <warp's name> 
+    awarp delwarp:
+      description: removes a player's warp
+      usage: /awarp delwarp <player's name> <warp's name>
+    awarp rent list:
+      description: shows the amount of rent days left for a player's warps
+      usage: /awarp rent list <player's name>
+    awarp reloadConfig:
+      description: reloads config. Some changes may require reloading the plugin entirely
+      usage: /awarp reloadConfig
+      permission: pwarp.op
+      permission-message: You don't have the permissions to do that!
+    
+permissions:
+  pwarp.setwarp:
+    description: Ability to create a warp
+    default: op
+  pwarp.delwarp:
+    description: Ability to delete one's warp
+    default: op
+  pwarp.gui:
+    description: Ability to open the warps gui
+    default: op
+  pwarp.list:
+    description: Ability to list a player's warps
+    default: op
+  pwarp.setlore:
+    description: Ability to set lore on one's warps
+    default: op
+  pwarp.rent:
+    description: Ability to pay rent on warps
+    default: op
+  pwarp.admin:
+    description: Gives access to all administrative commands
+    default: op
+  pwarp.op:
+    description: Gives access to all operator commands
+    default: op
+  pwarp.nocooldown:
+    description: Ignores cooldown between warps
+    default: op
+  pwarp.instanttp:
+    description: Ignores warm-up before warping
+    default: op
+  pwarp.setwarp.*:
+    description: Lets players create up to * number of warps
+    default: op
+  pwarp.bypasshooks:
+    description: Ability to place warps anywhere, ignoring hooks like GriefPrevention
+    default: op
+      
