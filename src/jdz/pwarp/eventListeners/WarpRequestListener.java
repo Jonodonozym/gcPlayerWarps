@@ -102,6 +102,9 @@ class WarpRequestListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onWarp(WarpGoEvent event) {
+		if (event.isCancelled())
+			return;
+		
 		Player player = (Player) event.getCause();
 		PlayerWarp warp = event.getWarp();
 

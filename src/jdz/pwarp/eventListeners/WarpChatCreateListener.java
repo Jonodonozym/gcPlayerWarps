@@ -7,6 +7,7 @@ import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 
@@ -23,8 +24,11 @@ class WarpChatCreateListener implements Listener{
 		instance = this;
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onChat(PlayerChatEvent event) {
+		if (event.isCancelled())
+			return;
+		
 		Player player = event.getPlayer();
 		
 		if (!nameDescisionListener.contains(player))

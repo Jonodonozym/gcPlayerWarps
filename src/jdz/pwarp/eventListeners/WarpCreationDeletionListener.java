@@ -22,8 +22,11 @@ class WarpCreationDeletionListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onWarpDelete(WarpDeletedEvent event) {
-		if (!event.isCancelled())
-			WarpDatabase.instance.delWarp(event.getWarp());
+		if (event.isCancelled())
+			return;
+		
+		WarpDatabase.instance.delWarp(event.getWarp());
+		
 		if (event.getCause() != null) {
 			event.getCause().sendMessage(ChatColor.GREEN + "Warp removed successfully");
 			if (!event.getCause().equals(event.getWarp().getOwner()) && event.getWarp().getOwner().isOnline())
@@ -49,17 +52,23 @@ class WarpCreationDeletionListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onWarpCreate(WarpCreatedEvent event) {
+		if (event.isCancelled())
+			return;
+		
 		if (WarpConfig.warpCost > 0) {
 			Player player = (Player)event.getCause();
 			Economy eco = VaultLoader.getEconomy();
 			eco.withdrawPlayer(player, WarpConfig.warpCost);
 			player.sendMessage(ChatColor.GREEN+eco.format(WarpConfig.warpCost)+" has been taken from your account");
+			setWarp(event.getCause(), event.getWarp());
 		}
-		setWarp(event.getCause(), event.getWarp());
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onWarpMove(WarpMovedEvent event) {
+		if (event.isCancelled())
+			return;
+		
 		PlayerWarp warp = new PlayerWarp(event.getWarp().getOwner(), event.getNewLocation(), event.getWarp().getName());
 		setWarp(event.getCause(), warp);
 	}
