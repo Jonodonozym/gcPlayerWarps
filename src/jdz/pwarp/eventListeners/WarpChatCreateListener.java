@@ -24,7 +24,7 @@ class WarpChatCreateListener implements Listener{
 		instance = this;
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onChat(PlayerChatEvent event) {
 		if (event.isCancelled())
 			return;
@@ -34,12 +34,12 @@ class WarpChatCreateListener implements Listener{
 		if (!nameDescisionListener.contains(player))
 			return;
 
-		String name = event.getMessage().split(" ")[0];
+		String text = ChatColor.stripColor(event.getMessage()).split(" ")[0];
 		
-		if (name.equalsIgnoreCase("cancel") || name.equalsIgnoreCase("stop"))
+		if (text.equalsIgnoreCase("cancel") || text.equalsIgnoreCase("stop"))
 			player.sendMessage(ChatColor.RED+"Warp creation cancelled");
 		else 
-			new WarpCreatedEvent(player, new PlayerWarp(player, player.getLocation(), name)).call();
+			new WarpCreatedEvent(player, new PlayerWarp(player, player.getLocation(), text)).call();
 
 		nameDescisionListener.remove(player);
 		event.setCancelled(true);

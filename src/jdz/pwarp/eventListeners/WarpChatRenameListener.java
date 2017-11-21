@@ -24,19 +24,19 @@ class WarpChatRenameListener implements Listener{
 		instance = this;
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onChat(PlayerChatEvent event) {
 		Player player = event.getPlayer();
 		
 		if (!nameDescisionListener.containsKey(player))
 			return;
-
-		String name = event.getMessage().split(" ")[0];
 		
-		if (name.equalsIgnoreCase("cancel") || name.equalsIgnoreCase("stop"))
+		String text = ChatColor.stripColor(event.getMessage()).split(" ")[0];
+		
+		if (text.equalsIgnoreCase("cancel") || text.equalsIgnoreCase("stop"))
 			player.sendMessage(ChatColor.RED+"Warp renaming cancelled");
 		else 
-			new WarpRenamedEvent(player, nameDescisionListener.get(player), name).call();
+			new WarpRenamedEvent(player, nameDescisionListener.get(player), text).call();
 
 		nameDescisionListener.remove(player);
 		event.setCancelled(true);
