@@ -1,6 +1,8 @@
 
 package jdz.pwarp.commands;
 
+import java.util.Set;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -20,13 +22,12 @@ import jdz.pwarp.events.WarpRenamedEvent;
 class RenameWarp extends SubCommand {
 
 	@Override
-	public boolean execute(CommandSender sender, String... args) {
+	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		PlayerWarp warp = WarpDatabase.instance.getWarp((Player) sender, args[0]);
 		if (warp == null)
 			sender.sendMessage("No warp found with the name '" + args[0] + ";");
 		else
 			new WarpRenamedEvent(sender, warp, args[1]).call();
-		return true;
 	}
 
 }

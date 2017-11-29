@@ -1,6 +1,8 @@
 
 package jdz.pwarp.commands;
 
+import java.util.Set;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,12 +15,10 @@ class Default extends SubCommand {
 	private final GotoWarp warpCommand = new GotoWarp();
 
 	@Override
-	public boolean execute(CommandSender sender, String... args) {
+	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		if (args.length == 0)
 			PlayerWarpGuiMenu.instance.open((Player)sender);
-		else warpCommand.execute(sender, args);
-		
-		return true;
+		else warpCommand.execute(sender, flags, args);
 	}
 
 }

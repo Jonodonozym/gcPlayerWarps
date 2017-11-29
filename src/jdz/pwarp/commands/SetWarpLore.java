@@ -1,6 +1,8 @@
 
 package jdz.pwarp.commands;
 
+import java.util.Set;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,23 +24,22 @@ import jdz.pwarp.events.WarpLoreEvent;
 class SetWarpLore extends SubCommand {
 
 	@Override
-	public boolean execute(CommandSender sender, String... args) {
+	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		int index;
 		try {
 			index = Integer.parseInt(args[1]);
 		} catch (NumberFormatException e) {
 			sender.sendMessage(ChatColor.RED+"'"+args[1]+"' is not a valid number");
-			return true;
+			return;
 		}
 		
 		PlayerWarp warp = WarpDatabase.instance.getWarp((Player)sender, args[0]);
 		if (warp == null) {
 			sender.sendMessage("No warp found called '"+args[0]+"'");
-			return true;
+			return;
 		}
 		
 		new WarpLoreEvent((Player)sender, warp, StringUtils.arrayToString(args, 2, " "), index).call();
-		return true;
 	}
 
 }

@@ -2,6 +2,7 @@
 package jdz.pwarp.commands;
 
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -19,9 +20,8 @@ import jdz.pwarp.data.WarpDatabase;
 public class RentList extends SubCommand{
 
 	@Override
-	public boolean execute(CommandSender sender, String... args) {
+	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		listWarps((Player)sender, (Player)sender);
-		return false;
 	}
 
 	public void listWarps(CommandSender sender, OfflinePlayer target) {

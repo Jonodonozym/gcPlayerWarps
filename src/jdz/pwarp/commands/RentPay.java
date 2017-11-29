@@ -1,6 +1,8 @@
 
 package jdz.pwarp.commands;
 
+import java.util.Set;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,14 +23,14 @@ import jdz.pwarp.data.WarpDatabase;
 class RentPay extends SubCommand {
 
 	@Override
-	public boolean execute(CommandSender sender, String... args) {
+	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		Player player = (Player) sender;
 
 		PlayerWarp warp = WarpDatabase.instance.getWarp(player, args[0]);
 
 		if (warp == null) {
 			sender.sendMessage(ChatColor.RED + "You don't have a warp called '" + args[0] + "'");
-			return true;
+			return;
 		}
 
 		int numDaysPaid = warp.getRentDaysPaid();
@@ -40,13 +42,13 @@ class RentPay extends SubCommand {
 				throw new NumberFormatException();
 		} catch (NumberFormatException e) {
 			sender.sendMessage(ChatColor.RED + "'" + args[1] + "' is not a valid number of days");
-			return true;
+			return;
 		}
 
 		if (numDaysPaid >= WarpConfig.rentMaxDays) {
 			sender.sendMessage(ChatColor.RED + "You have already paid the maximum of " + WarpConfig.rentMaxDays
 					+ " days in advance");
-			return true;
+			return;
 		}
 
 		int totalDaysPaid = daysToPay + numDaysPaid;
@@ -64,8 +66,6 @@ class RentPay extends SubCommand {
 		} else
 			player.sendMessage(ChatColor.RED + "You need " + VaultLoader.getEconomy().format(required - balance)
 					+ " more to do that");
-
-		return true;
 	}
 
 }

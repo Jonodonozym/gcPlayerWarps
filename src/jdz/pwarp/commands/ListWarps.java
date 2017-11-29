@@ -3,6 +3,7 @@ package jdz.pwarp.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,14 +26,14 @@ import jdz.pwarp.data.WarpDatabase;
 class ListWarps extends SubCommand {
 
 	@Override
-	public boolean execute(CommandSender sender, String... args) {
+	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		OfflinePlayer targetPlayer = (OfflinePlayer)sender;
 		
 		if (args.length > 0) {
 			targetPlayer = Bukkit.getOfflinePlayer(args[0]);
 			if (targetPlayer == null) {
 				sender.sendMessage(ChatColor.RED + args[0] + " has never logged in before!");
-				return true;
+				return;
 			}
 		}
 		
@@ -51,8 +52,6 @@ class ListWarps extends SubCommand {
 			sender.sendMessage(StringUtils.listToString(warpNames, ","));
 			sender.sendMessage(ChatColor.GRAY + "==================================");
 		}
-		
-		return true;
 	}
 
 }

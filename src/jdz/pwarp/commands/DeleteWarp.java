@@ -1,5 +1,7 @@
 package jdz.pwarp.commands;
 
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -25,9 +27,8 @@ import net.md_5.bungee.api.ChatColor;
 class DeleteWarp extends SubCommand{
 
 	@Override
-	public boolean execute(CommandSender sender, String... args) {
+	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		delWarp(sender, (Player)sender, args[0]);
-		return true;
 	}
 
 	public void delWarp(CommandSender sender, OfflinePlayer target, String name) {

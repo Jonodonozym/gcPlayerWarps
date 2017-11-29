@@ -1,6 +1,8 @@
 
 package jdz.pwarp.commands;
 
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -26,22 +28,17 @@ import net.md_5.bungee.api.ChatColor;
 class GotoWarp extends SubCommand{
 
 	@Override
-	public boolean execute(CommandSender sender, String... args) {
+	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		Player player = (Player) sender;
 		
 		@SuppressWarnings("deprecation")
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-		if (target == null) {
+		if (target == null)
 			player.sendMessage(ChatColor.RED + args[0] + " has never logged in before!");
-			return true;
-		}
-
-		if (args.length < 2)
+		else if (args.length < 2)
 			warpToFirst(player, target);
 		else
 			warp(player, target, args[1]);
-		
-		return true;
 	}
 
 	private void warpToFirst(Player player, OfflinePlayer target) {

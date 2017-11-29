@@ -3,6 +3,7 @@ package jdz.pwarp.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -24,7 +25,7 @@ import jdz.pwarp.data.WarpDatabase;
 class RentPayAll extends SubCommand {
 
 	@Override
-	public boolean execute(CommandSender sender, String... args) {
+	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		Player player = (Player) sender;
 		List<PlayerWarp> warps = WarpDatabase.instance.getWarps(player);
 		
@@ -36,7 +37,7 @@ class RentPayAll extends SubCommand {
 				throw new NumberFormatException();
 		} catch (NumberFormatException e) {
 			sender.sendMessage(ChatColor.RED + "'" + args[0] + "' is not a valid number of days");
-			return true;
+			return;
 		}
 
 		double totalCost = 0;
@@ -68,7 +69,6 @@ class RentPayAll extends SubCommand {
 		} else
 			player.sendMessage(ChatColor.RED + "You need " + VaultLoader.getEconomy().format(totalCost - balance)
 					+ " more to do that");
-		return true;
 	}
 
 }

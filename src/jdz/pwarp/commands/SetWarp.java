@@ -1,6 +1,8 @@
 package jdz.pwarp.commands;
 
 
+import java.util.Set;
+
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -30,9 +32,8 @@ import net.md_5.bungee.api.ChatColor;
 final class SetWarp extends SubCommand{
 
 	@Override
-	public boolean execute(CommandSender sender, String... args) {
+	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		setWarp((Player)sender, (Player)sender, args[0]);
-		return true;
 	}
 
 	public void setWarp(Player sender, OfflinePlayer target, String name) {

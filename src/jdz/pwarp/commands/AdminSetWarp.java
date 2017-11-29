@@ -1,6 +1,8 @@
 
 package jdz.pwarp.commands;
 
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -21,14 +23,13 @@ public class AdminSetWarp extends SubCommand{
 	private final SetWarp piggyback = new SetWarp();
 
 	@Override
-	public boolean execute(CommandSender sender, String... args) {
+	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		@SuppressWarnings("deprecation")
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		if (target == null)
 			sender.sendMessage(ChatColor.RED+args[0]+" has never logged in before");
 		else
 			piggyback.setWarp((Player)sender, target, args[1]);
-		return true;
 	}
 
 }

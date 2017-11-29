@@ -1,6 +1,8 @@
 
 package jdz.pwarp.commands;
 
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -20,14 +22,13 @@ public class AdminListWarps extends SubCommand{
 	private final RentList piggyback = new RentList();
 
 	@Override
-	public boolean execute(CommandSender sender, String... args) {
+	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		@SuppressWarnings("deprecation")
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		if (target == null)
 			sender.sendMessage(ChatColor.RED+args[0]+" has never logged in before");
 		else
 			piggyback.listWarps(sender, target);
-		return true;
 	}
 
 }
