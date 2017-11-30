@@ -4,7 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Jaiden/git/^^Libs/spigot-1.12.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Jaiden/git/^^Libs/GriefPrevention.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jaiden/git/^^Libs/PlotSquared-Bukkit-17.09.29-9480c70-1922.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jaiden/git/^^Libs/PlotSquared.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Jaiden/git/^^Libs/askyblock.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Jaiden/git/^^Libs/Vault.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Jaiden/git/^^Libs/JBU.jar"/>
