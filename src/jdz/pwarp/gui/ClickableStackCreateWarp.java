@@ -9,7 +9,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import jdz.bukkitUtils.guiMenu.guis.GuiMenu;
 import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStack;
-import jdz.pwarp.data.WarpDatabase;
+import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.eventListeners.PlayerWarpListeners;
 import net.md_5.bungee.api.ChatColor;
 
@@ -20,7 +20,7 @@ class ClickableStackCreateWarp extends ClickableStack{
 	public ClickableStackCreateWarp(Player player, boolean canCreate) {
 		super(Material.NETHER_STAR, ChatColor.GREEN+"Click to create a warp",
 				Arrays.asList(ChatColor.AQUA+"You can create "+ChatColor.BOLD+ChatColor.GOLD+
-				(WarpDatabase.instance.getNumWarpsAllowed(player) - WarpDatabase.instance.getNumWarps(player))+
+				(WarpManager.getInstance().getNumWarpsAllowed(player) - WarpManager.getInstance().getAll(player).size())+
 				ChatColor.RESET+ChatColor.AQUA+" more warps"));
 		
 		this.player = player;

@@ -2,12 +2,12 @@
 package jdz.pwarp.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.intellectualcrafters.plot.api.PlotAPI;
@@ -15,38 +15,54 @@ import com.intellectualcrafters.plot.object.Plot;
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
 import com.wasteofplastic.askyblock.Island;
 
+import jdz.bukkitUtils.misc.WorldUtils;
 import jdz.bukkitUtils.vault.VaultLoader;
 import jdz.pwarp.PlayerWarpPlugin;
-import jdz.pwarp.events.WarpDeletedEvent;
 import jdz.pwarp.events.WarpRequestEvent;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import net.md_5.bungee.api.ChatColor;
 
+@AllArgsConstructor
 public class PlayerWarp {
-	private final OfflinePlayer owner;
-	private Location location;
-	private final String name;
-	private final List<String> lore;
-	private final int rentDaysPaid;
+	@Getter private final OfflinePlayer owner;
+	@Getter private Location location;
+	@Getter private String name;
+	@Getter private List<String> lore;
+	@Getter private int rentDaysPaid;
+
+
+	public void setLoreLine(String lore, int line) {
+		this.lore.set(line, lore);
+		WarpDatabase.getInstance().setLore(this, lore, line);
+	}
 	
-	public PlayerWarp(OfflinePlayer owner, Location location, String name, List<String> lore, int rentDaysPaid) {
-		this.owner = owner;
-		this.location = location;
+	public void setLocation(Location l) {
+		this.location = l;
+		WarpDatabase.getInstance().move(this, l);
+	}
+	
+	public void setName(String name) {
 		this.name = name;
-		this.lore = lore;
-		this.rentDaysPaid = rentDaysPaid;
+		WarpDatabase.getInstance().rename(this, name);
+	}
+	
+	public void setRentDaysPaid(int daysPaid) {
+		this.rentDaysPaid = daysPaid;
+		WarpDatabase.getInstance().setRentDays(this, daysPaid);
 	}
 
 	public PlayerWarp(OfflinePlayer owner, Location location, String name) {
-		this(owner, location, name, new ArrayList<String>(), 10);
+		this(owner, location, name, new ArrayList<String>(Arrays.asList("","","")), 10);
 	}
 
 	@SuppressWarnings("deprecation")
 	public boolean isSafe() {
 		if (WarpConfig.safeWarpEnabled) {
 			for (int i=0; i<3; i++)
-				if (WarpConfig.unsafeBlocks.contains(location.add(0, i, 0).getBlock().getTypeId()))
+				if (WarpConfig.unsafeBlocks.contains(location.clone().add(0, i, 0).getBlock().getTypeId()))
 					return false;
 		}
 		if (location.getBlockY() == 0)
@@ -61,21 +77,21 @@ public class PlayerWarp {
 			return true;
 
 		if (WarpConfig.ASEnabled) {
-			Island island = ASkyBlockAPI.getInstance().getIslandAt(location);
+			Island island = ASkyBlockAPI.getInstance().getIslandAt(location.clone());
 			if (island == null || (!island.getMembers().contains(owner.getUniqueId()))) {
 				return false;
 			}
 		}
 
 		if (WarpConfig.PSEnabled) {
-			Plot plot = new PlotAPI().getPlot(location);
+			Plot plot = new PlotAPI().getPlot(location.clone());
 			if (plot == null || (!plot.getOwners().contains(owner.getUniqueId())
 					&& !plot.getMembers().contains(owner.getUniqueId())))
 				return false;
 		}
 
 		if (WarpConfig.GPEnabled) {
-			Claim claim = GriefPrevention.instance.dataStore.getClaimAt(location, true, null);
+			Claim claim = GriefPrevention.instance.dataStore.getClaimAt(location.clone(), true, null);
 			if (claim != null) {
 				ArrayList<String> permissionsList = new ArrayList<String>();
 				claim.getPermissions(permissionsList, new ArrayList<String>(), permissionsList, permissionsList);
@@ -87,26 +103,19 @@ public class PlayerWarp {
 
 		return true;
 	}
-
-	public void delete(CommandSender executor) {
-		if (WarpDatabase.instance.exists(this))
-			new WarpDeletedEvent((Player)executor, this).call();
-		else
-			executor.sendMessage(ChatColor.RED+"No warp found named "+name);
-	}
 	
 	public void warp(Player player){
 		moveToSolid();
 		
 		if (!isInClaimed()){
-			PlayerWarpPlugin.sqlMessageQueue.addQueuedMessage(getOwner(), ChatColor.RED+"Your warp "+getName()+" at"+getLocation().toString()+" was removed since you no longer have access to it's location");
-			WarpDatabase.instance.delWarp(this);
+			PlayerWarpPlugin.sqlMessageQueue.addQueuedMessage(getOwner(), ChatColor.RED+"Your warp "+getName()+" at "+WorldUtils.locationToString(location)+" was removed since you no longer have access to it's location");
+			WarpDatabase.getInstance().delWarp(this);
 			if (getOwner().isOnline() && !getOwner().getPlayer().equals(player))
 			player.sendMessage(ChatColor.RED+"That warp is no longer in land accessable by the owner and has been removed");
 		}
 		else if (!isSafe()){
-			PlayerWarpPlugin.sqlMessageQueue.addQueuedMessage(getOwner(), ChatColor.RED+"Your warp "+getName()+" at"+getLocation().toString()+" was removed since it is no longer in a safe location");
-			WarpDatabase.instance.delWarp(this);
+			PlayerWarpPlugin.sqlMessageQueue.addQueuedMessage(getOwner(), ChatColor.RED+"Your warp "+getName()+" at"+WorldUtils.locationToString(location)+" was removed since it is no longer in a safe location");
+			WarpDatabase.getInstance().delWarp(this);
 			if (getOwner().isOnline() && !getOwner().getPlayer().equals(player))
 			player.sendMessage(ChatColor.RED+"That warp is no longer safe and has been removed");
 		}
@@ -114,36 +123,30 @@ public class PlayerWarp {
 	}
 	
 	private void moveToSolid() {
-		Location startingLocation = location;
+		Location startingLocation = location.clone();
+		
 		while(!location.getBlock().getType().isSolid()) {
-			location = location.subtract(0, 1, 0);
+			location.subtract(0, 1, 0);
 			if (location.getBlockY() <= 0)
 				break;
 		}
-		while(location.add(0,2,0).getBlock().getType().isSolid())
-			location = location.add(0,1,0);
+		
+		while(location.clone().add(0,1,0).getBlock().getType().isSolid() || location.clone().add(0,2,0).getBlock().getType().isSolid())
+			location.add(0,1,0);
 		
 		if (!location.equals(startingLocation))
-			WarpDatabase.instance.setWarp(this);
-	}
-
-	public OfflinePlayer getOwner() {
-		return owner;
-	}
-
-	public Location getLocation() {
-		return location;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public List<String> getLore() {
-		return lore;
+			WarpDatabase.getInstance().move(this, location);
 	}
 	
-	public int getRentDaysPaid() {
-		return rentDaysPaid;
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof PlayerWarp)
+			return ((PlayerWarp)other).getName().equalsIgnoreCase(name) && ((PlayerWarp)other).getOwner().equals(owner);
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return owner.hashCode()*name.hashCode();
 	}
 }

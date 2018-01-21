@@ -18,7 +18,7 @@ import jdz.bukkitUtils.commands.SubCommand;
 @CommandLabel("delwarp")
 @CommandRequiredArgs(2)
 @CommandPermission("pwarp.admin")
-@CommandUsage("/awarp delwarp <player> <warp>")
+@CommandUsage("delwarp <player> <warp>")
 public class AdminDelWarp extends SubCommand{
 	private final DeleteWarp piggyback = new DeleteWarp();
 

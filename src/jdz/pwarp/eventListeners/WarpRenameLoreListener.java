@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpDatabase;
 import jdz.pwarp.events.WarpLoreEvent;
 import jdz.pwarp.events.WarpRenamedEvent;
 
@@ -21,7 +20,7 @@ class WarpRenameLoreListener implements Listener{
 		PlayerWarp warp = event.getWarp();
 		String newName = event.getNewName();
 		
-		WarpDatabase.instance.rename(warp, newName);
+		warp.setName(newName);
 		sender.sendMessage(ChatColor.GREEN + "'" + warp.getName() + "' successfully renamed to '" + newName + "'");
 
 		if (!sender.equals(warp.getOwner().getPlayer()))
@@ -30,10 +29,9 @@ class WarpRenameLoreListener implements Listener{
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onLoreChange(WarpLoreEvent event) {
-		String warpName = event.getWarp().getName();
 		String lore = ChatColor.translateAlternateColorCodes('&', event.getNewLore());		
 		
-		WarpDatabase.instance.setLore(event.getWarp().getOwner(), warpName, lore, event.getLine());
+		event.getWarp().setLoreLine(lore, event.getLine());
 		
 		event.getCause().sendMessage(ChatColor.GREEN+"Warp lore line "+event.getLine()+" set to '"+event.getNewLore()+"'");
 	}

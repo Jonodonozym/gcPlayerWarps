@@ -18,7 +18,7 @@ import jdz.bukkitUtils.commands.SubCommand;
 @CommandLabel("setwarp")
 @CommandRequiredArgs(2)
 @CommandPermission("pwarp.admin")
-@CommandUsage("/awarp setwarp <player> <warp>")
+@CommandUsage("setwarp <player> <warp>")
 public class AdminSetWarp extends SubCommand{
 	private final SetWarp piggyback = new SetWarp();
 

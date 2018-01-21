@@ -3,16 +3,13 @@ package jdz.pwarp.tasks;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import jdz.bukkitUtils.fileIO.FileLogger;
 import jdz.bukkitUtils.misc.Config;
 import jdz.bukkitUtils.misc.TimedTask;
 import jdz.pwarp.PlayerWarpPlugin;
-import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpDatabase;
-import jdz.pwarp.events.WarpRentExpiredEvent;
+import jdz.pwarp.data.WarpManager;
 
 public class RentCheckerTask{
 	public static RentCheckerTask instance;
@@ -23,7 +20,7 @@ public class RentCheckerTask{
 		if (instance == null) {
 			task = new TimedTask(plugin, 1200, ()->{
 					if (new Date().after(nextCheck)){
-						subtractRent();
+						WarpManager.getInstance().decreaseRentDays();
 						setLastCheck(new Date());
 					}
 				});
@@ -31,14 +28,6 @@ public class RentCheckerTask{
 			PlayerWarpPlugin.sqlApi.runOnConnect(()->{task.start();});
 			instance = this;
 		}
-	}
-
-	private void subtractRent(){
-		WarpDatabase.instance.decreaseRentDays();
-		
-		List<PlayerWarp> overdueWarps = WarpDatabase.instance.getOverdueRents();
-		for (PlayerWarp warp: overdueWarps)
-			new WarpRentExpiredEvent(warp).call();
 	}
 	
 	public Date getLastCheck(){

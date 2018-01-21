@@ -2,8 +2,6 @@ package jdz.pwarp.commands;
 
 import java.util.Set;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,7 +12,7 @@ import jdz.bukkitUtils.commands.annotations.CommandRequiredArgs;
 import jdz.bukkitUtils.commands.annotations.CommandUsage;
 import jdz.bukkitUtils.commands.SubCommand;
 import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpDatabase;
+import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.events.WarpDeletedEvent;
 import net.md_5.bungee.api.ChatColor;
 
@@ -22,7 +20,7 @@ import net.md_5.bungee.api.ChatColor;
 @CommandLabel("delete")
 @CommandLabel("remove")
 @CommandRequiredArgs(1)
-@CommandUsage("/pwarp delwarp <name>")
+@CommandUsage("delwarp <name>")
 @CommandPermission("pwarp.delwarp")
 class DeleteWarp extends SubCommand{
 
@@ -32,10 +30,10 @@ class DeleteWarp extends SubCommand{
 	}
 
 	public void delWarp(CommandSender sender, OfflinePlayer target, String name) {
-		PlayerWarp warp = new PlayerWarp(target, new Location(Bukkit.getWorlds().get(0),0,0,0), name);
-		if (WarpDatabase.instance.exists(warp))
-			new WarpDeletedEvent((Player)sender, warp).call();
-		else
+		PlayerWarp warp = WarpManager.getInstance().get(target, name);
+		if (warp == null)
 			sender.sendMessage(ChatColor.RED+"No warp found named "+name);
+		else
+			new WarpDeletedEvent((Player)sender, warp).call();
 	}
 }

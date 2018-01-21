@@ -17,18 +17,17 @@ import jdz.bukkitUtils.vault.VaultLoader;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.data.WarpConfig;
-import jdz.pwarp.data.WarpDatabase;
+import jdz.pwarp.data.WarpManager;
 
 @CommandLabel("payall")
 @CommandRequiredArgs(1)
-@CommandUsage("/pwarp rent payall <days>")
+@CommandUsage("rent payall <days>")
 class RentPayAll extends SubCommand {
 
 	@Override
 	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		Player player = (Player) sender;
-		List<PlayerWarp> warps = WarpDatabase.instance.getWarps(player);
-		
+		List<PlayerWarp> warps = WarpManager.getInstance().getAll(player);
 		
 		int daysToPay;
 		try {
@@ -60,7 +59,7 @@ class RentPayAll extends SubCommand {
 			
 			int i=0;
 			for (PlayerWarp warp: warps)
-				WarpDatabase.instance.setRentDays(player, warp.getName(), newDaysPaid.get(i++));
+				warp.setRentDaysPaid(newDaysPaid.get(i++));
 			
 			PlayerWarpPlugin.logger.log(player.getName() + " paid rent for " + daysToPay + " days for all warps");
 			

@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import jdz.bukkitUtils.guiMenu.guis.GuiMenuConfirmDialogue;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
+import jdz.pwarp.events.WarpDeletedEvent;
 
 class GuiMenuConfirmDeletion extends GuiMenuConfirmDialogue{
 	private final GuiMenuMyWarps superMenu;
@@ -27,7 +28,7 @@ class GuiMenuConfirmDeletion extends GuiMenuConfirmDialogue{
 
 	@Override
 	public void onConfirm() {
-		warp.delete(player);
+		new WarpDeletedEvent(player, warp).call();
 		superMenu.refresh();
 		superMenu.open(player);
 	}

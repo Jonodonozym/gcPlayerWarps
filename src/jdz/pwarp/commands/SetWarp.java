@@ -17,7 +17,7 @@ import jdz.bukkitUtils.commands.SubCommand;
 import jdz.bukkitUtils.misc.WorldUtils;
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.data.WarpConfig;
-import jdz.pwarp.data.WarpDatabase;
+import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.events.WarpCreatedEvent;
 import jdz.pwarp.events.WarpEvent;
 import jdz.pwarp.events.WarpMovedEvent;
@@ -26,7 +26,7 @@ import net.md_5.bungee.api.ChatColor;
 @CommandLabel("setwarp")
 @CommandLabel("create")
 @CommandRequiredArgs(1)
-@CommandUsage("/pwarp setwarp <name>")
+@CommandUsage("setwarp <name>")
 @CommandShortDescription("Creates or moves an existing warp to your location")
 @CommandPermission("pwarp.setwarp")
 final class SetWarp extends SubCommand{
@@ -37,19 +37,22 @@ final class SetWarp extends SubCommand{
 	}
 
 	public void setWarp(Player sender, OfflinePlayer target, String name) {
-		int currentWarps = WarpDatabase.instance.getNumWarps(target);
-		int allowedWarps = WarpDatabase.instance.getNumWarpsAllowed(target);
+		int currentWarps = WarpManager.getInstance().getAll(target).size();
+		int allowedWarps = WarpManager.getInstance().getNumWarpsAllowed(target);
 
 		if (currentWarps >= allowedWarps) {
 			sender.sendMessage(ChatColor.RED + "You can only have " + allowedWarps + " warps at a time!");
 			return;
 		}
 
-		Location location = WorldUtils.getNearestLocationUnder(sender.getLocation());
+		Location location = WorldUtils.getNearestBlockUnder(sender.getLocation()).getLocation();
 		if (location == null){
 			sender.sendMessage(ChatColor.RED+"You are not standing above a block!");
 			return;
 		}
+		
+		location.add(0.5, 0, 0.5);
+		location.setDirection(sender.getLocation().getDirection());
 		
 		PlayerWarp warp = new PlayerWarp(target, location, name);
 		if (!warp.isInClaimed()){
@@ -68,7 +71,7 @@ final class SetWarp extends SubCommand{
 			return;
 		}
 		
-		PlayerWarp existingWarp = WarpDatabase.instance.getWarp(target, name);
+		PlayerWarp existingWarp = WarpManager.getInstance().get(target, name);
 		
 		WarpEvent event;
 		if (existingWarp != null)

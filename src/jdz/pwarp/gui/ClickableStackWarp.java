@@ -2,6 +2,7 @@
 package jdz.pwarp.gui;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -27,6 +28,13 @@ class ClickableStackWarp extends ClickableStack{
 		
 		SkullMeta skullMeta = (SkullMeta) getStack().getItemMeta();
 		skullMeta.setOwner(warp.getOwner().getName());
+		
+		List<String> newLore = skullMeta.getLore();
+		for (String s: warp.getLore())
+			if (!s.equals(""))
+				newLore.add(s);
+		skullMeta.setLore(newLore);
+		
 		getStack().setItemMeta(skullMeta);
 	}	
 	

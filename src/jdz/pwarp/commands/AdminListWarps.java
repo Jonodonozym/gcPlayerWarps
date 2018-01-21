@@ -17,7 +17,7 @@ import jdz.bukkitUtils.commands.SubCommand;
 @CommandLabel("list")
 @CommandRequiredArgs(1)
 @CommandPermission("pwarp.admin")
-@CommandUsage("/awarp list <player>")
+@CommandUsage("list <player>")
 public class AdminListWarps extends SubCommand{
 	private final RentList piggyback = new RentList();
 

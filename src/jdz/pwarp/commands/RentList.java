@@ -13,10 +13,10 @@ import jdz.bukkitUtils.commands.annotations.CommandLabel;
 import jdz.bukkitUtils.commands.annotations.CommandUsage;
 import jdz.bukkitUtils.commands.SubCommand;
 import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpDatabase;
+import jdz.pwarp.data.WarpManager;
 
 @CommandLabel("list")
-@CommandUsage("/pwarp rent list")
+@CommandUsage("rent list")
 public class RentList extends SubCommand{
 
 	@Override
@@ -25,7 +25,7 @@ public class RentList extends SubCommand{
 	}
 
 	public void listWarps(CommandSender sender, OfflinePlayer target) {
-		List<PlayerWarp> warps = WarpDatabase.instance.getWarps(target);
+		List<PlayerWarp> warps = WarpManager.getInstance().getAll(target);
 		
 		String[] list = new String[warps.size() + 2];
 		list[0] = sender.equals(target)?

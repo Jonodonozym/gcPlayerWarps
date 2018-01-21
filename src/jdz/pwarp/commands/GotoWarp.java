@@ -13,17 +13,15 @@ import jdz.bukkitUtils.commands.annotations.CommandPermission;
 import jdz.bukkitUtils.commands.annotations.CommandRequiredArgs;
 import jdz.bukkitUtils.commands.annotations.CommandUsage;
 import jdz.bukkitUtils.commands.SubCommand;
-import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpDatabase;
-import jdz.pwarp.events.WarpRequestEvent;
+import jdz.pwarp.data.WarpManager;
 import net.md_5.bungee.api.ChatColor;
 
 @CommandLabel("warp")
 @CommandLabel("go")
 @CommandLabel("w")
 @CommandRequiredArgs(2)
-@CommandUsage("/pwarp warp <player> <warpName>")
+@CommandUsage("warp <player> <warpName>")
 @CommandPermission("pwarp.teleport")
 class GotoWarp extends SubCommand{
 
@@ -42,40 +40,18 @@ class GotoWarp extends SubCommand{
 	}
 
 	private void warpToFirst(Player player, OfflinePlayer target) {
-		PlayerWarp warp = WarpDatabase.instance.getFirstWarp(target);
+		PlayerWarp warp = WarpManager.getInstance().get(target);
 		if (warp == null)
 			player.sendMessage(ChatColor.RED + target.getName() + " doesn't have any warps!");
 		else
-			tryWarp(player, warp);
+			warp.warp(player);
 	}
 
 	private void warp(Player player, OfflinePlayer target, String warpName) {
-		PlayerWarp warp = WarpDatabase.instance.getWarp(target, warpName);
+		PlayerWarp warp = WarpManager.getInstance().get(target, warpName);
 		if (warp == null)
 			player.sendMessage(ChatColor.RED + target.getName() + " doesn't have a warp called " + warpName);
 		else
-			tryWarp(player, warp);
-	}
-	
-	private void tryWarp(Player player, PlayerWarp warp){
-		if (!warp.isInClaimed()){
-			removeInvalidWarp(warp);
-			player.sendMessage(ChatColor.RED+"That warp is no longer in land accessable by the owner and has been removed");
-		}
-		else if (!warp.isSafe()){
-			removeUnsafeWarp(warp);
-			player.sendMessage(ChatColor.RED+"That warp is no longer safe and has been removed");
-		}
-		else new WarpRequestEvent(player, warp).call();
-	}
-	
-	private void removeInvalidWarp(PlayerWarp warp){
-		PlayerWarpPlugin.sqlMessageQueue.addQueuedMessage(warp.getOwner(), ChatColor.RED+"Your warp "+warp.getName()+" at"+warp.getLocation().toString()+" was removed since you no longer have access to it's location");
-		WarpDatabase.instance.delWarp(warp);
-	}
-	
-	private void removeUnsafeWarp(PlayerWarp warp){
-		PlayerWarpPlugin.sqlMessageQueue.addQueuedMessage(warp.getOwner(), ChatColor.RED+"Your warp "+warp.getName()+" at"+warp.getLocation().toString()+" was removed since it is no longer in a safe location");
-		WarpDatabase.instance.delWarp(warp);
+			warp.warp(player);
 	}
 }

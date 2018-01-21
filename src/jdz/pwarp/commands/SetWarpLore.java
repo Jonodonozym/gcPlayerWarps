@@ -14,13 +14,13 @@ import jdz.bukkitUtils.commands.annotations.CommandUsage;
 import jdz.bukkitUtils.commands.SubCommand;
 import jdz.bukkitUtils.misc.StringUtils;
 import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpDatabase;
+import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.events.WarpLoreEvent;
 
 @CommandLabel("setLore")
 @CommandRequiredArgs(3)
 @CommandPermission("pwarp.setLore")
-@CommandUsage("/pwarp setLore <warp> <line> <lore>")
+@CommandUsage("setLore <warp> <line> <lore>")
 class SetWarpLore extends SubCommand {
 
 	@Override
@@ -33,7 +33,7 @@ class SetWarpLore extends SubCommand {
 			return;
 		}
 		
-		PlayerWarp warp = WarpDatabase.instance.getWarp((Player)sender, args[0]);
+		PlayerWarp warp = WarpManager.getInstance().get((Player)sender, args[0]);
 		if (warp == null) {
 			sender.sendMessage("No warp found called '"+args[0]+"'");
 			return;

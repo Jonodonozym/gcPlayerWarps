@@ -16,7 +16,7 @@ import net.md_5.bungee.api.ChatColor;
 @CommandLabel("reload")
 @CommandLabel("r")
 @CommandPermission("pwarp.op")
-@CommandUsage("/awarp reloadConfig")
+@CommandUsage("reloadConfig")
 public class AdminReloadConfig extends SubCommand {
 
 	@Override

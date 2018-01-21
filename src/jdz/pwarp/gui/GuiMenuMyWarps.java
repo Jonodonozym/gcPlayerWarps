@@ -14,7 +14,7 @@ import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStack;
 import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStackLinkedMenu;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpDatabase;
+import jdz.pwarp.data.WarpManager;
 
 class GuiMenuMyWarps extends GuiMenu{
 	private Inventory inventory;
@@ -32,7 +32,7 @@ class GuiMenuMyWarps extends GuiMenu{
 		if (inventory != null)
 			clear(inventory);
 		
-		List<PlayerWarp> myWarps = WarpDatabase.instance.getWarps(player);
+		List<PlayerWarp> myWarps = WarpManager.getInstance().getAll(player);
 
 		inventory = Bukkit.createInventory(player, Math.max((myWarps.size()/9)*9, 36), ChatColor.GREEN+"My Warps");
 		
@@ -43,8 +43,8 @@ class GuiMenuMyWarps extends GuiMenu{
 		
 		setItem(backButton, 33, inventory);
 
-		int currentWarps = WarpDatabase.instance.getNumWarps(player);
-		int allowedWarps = WarpDatabase.instance.getNumWarpsAllowed(player);
+		int currentWarps = WarpManager.getInstance().getAll(player).size();
+		int allowedWarps = WarpManager.getInstance().getNumWarpsAllowed(player);
 		
 		setItem(new ClickableStackCreateWarp(player, allowedWarps > currentWarps), 35, inventory);
 	}

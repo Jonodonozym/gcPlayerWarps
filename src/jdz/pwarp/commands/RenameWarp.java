@@ -12,18 +12,18 @@ import jdz.bukkitUtils.commands.annotations.CommandRequiredArgs;
 import jdz.bukkitUtils.commands.annotations.CommandUsage;
 import jdz.bukkitUtils.commands.SubCommand;
 import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpDatabase;
+import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.events.WarpRenamedEvent;
 
 @CommandLabel("rename")
 @CommandRequiredArgs(2)
-@CommandUsage("/pwarp rename <oldName> <newName>")
+@CommandUsage("rename <oldName> <newName>")
 @CommandPermission("pwarp.setwarp")
 class RenameWarp extends SubCommand {
 
 	@Override
 	public void execute(CommandSender sender, Set<String> flags, String... args) {
-		PlayerWarp warp = WarpDatabase.instance.getWarp((Player) sender, args[0]);
+		PlayerWarp warp = WarpManager.getInstance().get((Player) sender, args[0]);
 		if (warp == null)
 			sender.sendMessage("No warp found with the name '" + args[0] + ";");
 		else

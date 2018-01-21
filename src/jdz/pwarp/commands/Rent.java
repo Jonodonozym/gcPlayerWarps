@@ -12,7 +12,7 @@ import jdz.bukkitUtils.commands.ParentCommand;
 import jdz.bukkitUtils.commands.SubCommand;
 
 @CommandLabel("rent")
-@CommandUsage("/pwarp rent <sub-command>")
+@CommandUsage("rent <sub-command>")
 @CommandPermission("pwarp.rent")
 class Rent extends ParentCommand{
 	private final RentList rentList = new RentList();

@@ -9,7 +9,7 @@ import jdz.bukkitUtils.sql.SqlMessageQueue;
 import jdz.pwarp.commands.AdminCommandExecutor;
 import jdz.pwarp.commands.PlayerCommandExecutor;
 import jdz.pwarp.data.WarpConfig;
-import jdz.pwarp.data.WarpDatabase;
+import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.eventListeners.PlayerWarpListeners;
 import jdz.pwarp.gui.PlayerWarpGuiMenu;
 import jdz.pwarp.tasks.RentCheckerTask;
@@ -29,7 +29,7 @@ public class PlayerWarpPlugin extends JavaPlugin{
 		
 		sqlApi = new SqlApi(this);
 		sqlMessageQueue = new SqlMessageQueue(this, sqlApi);
-		new WarpDatabase(this, sqlApi);
+		WarpManager.getInstance();
 		
 		PlayerWarpListeners.register(this);
 		

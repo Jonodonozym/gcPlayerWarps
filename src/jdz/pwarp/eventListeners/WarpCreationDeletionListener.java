@@ -1,7 +1,6 @@
 
 package jdz.pwarp.eventListeners;
 
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -9,9 +8,8 @@ import org.bukkit.event.Listener;
 
 import jdz.bukkitUtils.vault.VaultLoader;
 import jdz.pwarp.PlayerWarpPlugin;
-import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.data.WarpConfig;
-import jdz.pwarp.data.WarpDatabase;
+import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.events.WarpCreatedEvent;
 import jdz.pwarp.events.WarpDeletedEvent;
 import jdz.pwarp.events.WarpMovedEvent;
@@ -25,7 +23,7 @@ class WarpCreationDeletionListener implements Listener {
 		if (event.isCancelled())
 			return;
 		
-		WarpDatabase.instance.delWarp(event.getWarp());
+		WarpManager.getInstance().remove(event.getWarp());
 		
 		if (event.getCause() != null) {
 			event.getCause().sendMessage(ChatColor.GREEN + "Warp removed successfully");
@@ -60,7 +58,11 @@ class WarpCreationDeletionListener implements Listener {
 			Economy eco = VaultLoader.getEconomy();
 			eco.withdrawPlayer(player, WarpConfig.warpCost);
 			player.sendMessage(ChatColor.GREEN+eco.format(WarpConfig.warpCost)+" has been taken from your account");
-			setWarp(event.getCause(), event.getWarp());
+			
+			WarpManager.getInstance().add(event.getWarp());
+			
+			event.getCause().sendMessage(ChatColor.GREEN + "Warp set! to warp to it, use /pwarp " + event.getWarp().getOwner().getName() + " "
+					+ event.getWarp().getName());
 		}
 	}
 
@@ -69,13 +71,9 @@ class WarpCreationDeletionListener implements Listener {
 		if (event.isCancelled())
 			return;
 		
-		PlayerWarp warp = new PlayerWarp(event.getWarp().getOwner(), event.getNewLocation(), event.getWarp().getName());
-		setWarp(event.getCause(), warp);
-	}
-
-	private void setWarp(CommandSender sender, PlayerWarp warp) {
-		WarpDatabase.instance.setWarp(warp);
-		sender.sendMessage(ChatColor.GREEN + "Warp set! to warp to it, use /pwarp " + warp.getOwner().getName() + " "
-				+ warp.getName());
+		event.getWarp().setLocation(event.getNewLocation());
+		
+		event.getCause().sendMessage(ChatColor.GREEN + "Warp set! to warp to it, use /pwarp " + event.getWarp().getOwner().getName() + " "
+				+ event.getWarp().getName());
 	}
 }

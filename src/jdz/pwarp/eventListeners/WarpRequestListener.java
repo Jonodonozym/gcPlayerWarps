@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -113,6 +115,12 @@ class WarpRequestListener implements Listener {
 
 		player.teleport(warp.getLocation().add(0, 1, 0));
 		player.sendMessage(
-				ChatColor.GREEN + "Teleported you to " + warp.getOwner().getName() + "'s warp " + warp.getName());
+				ChatColor.GREEN + "Teleported you to " + (warp.getOwner().isOnline()?warp.getOwner().getPlayer().getDisplayName():warp.getOwner().getName()) + "'s warp " + warp.getName());
+		
+		for (Player everyone: Bukkit.getOnlinePlayers())
+			everyone.playSound(player.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 10, 1);
+		
+		if (warp.getOwner().isOnline())
+			warp.getOwner().getPlayer().sendMessage(ChatColor.GREEN + player.getDisplayName() + ChatColor.GREEN+" warped to your "+warp.getName()+" warp");
 	}
 }

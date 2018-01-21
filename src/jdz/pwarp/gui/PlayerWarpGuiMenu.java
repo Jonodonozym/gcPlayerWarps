@@ -21,7 +21,7 @@ import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStack;
 import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStackLinkedMenu;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpDatabase;
+import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.events.WarpCreatedEvent;
 import jdz.pwarp.events.WarpDeletedEvent;
 import jdz.pwarp.events.WarpLoreEvent;
@@ -65,7 +65,7 @@ public class PlayerWarpGuiMenu extends GuiMenu {
 			public void run() {
 				List<ClickableStack> items = new ArrayList<ClickableStack>();
 
-				List<PlayerWarp> warps = WarpDatabase.instance.getAllWarps();
+				List<PlayerWarp> warps = WarpManager.getInstance().getAllWarps();
 				
 				for (PlayerWarp warp : warps)
 					items.add(new ClickableStackWarp(warp));

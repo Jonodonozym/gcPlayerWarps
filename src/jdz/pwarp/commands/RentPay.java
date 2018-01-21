@@ -15,18 +15,18 @@ import jdz.bukkitUtils.vault.VaultLoader;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.data.WarpConfig;
-import jdz.pwarp.data.WarpDatabase;
+import jdz.pwarp.data.WarpManager;
 
 @CommandLabel("pay")
 @CommandRequiredArgs(2)
-@CommandUsage("/pwarp rent pay <warp> <days>")
+@CommandUsage("rent pay <warp> <days>")
 class RentPay extends SubCommand {
 
 	@Override
 	public void execute(CommandSender sender, Set<String> flags, String... args) {
 		Player player = (Player) sender;
 
-		PlayerWarp warp = WarpDatabase.instance.getWarp(player, args[0]);
+		PlayerWarp warp = WarpManager.getInstance().get(player, args[0]);
 
 		if (warp == null) {
 			sender.sendMessage(ChatColor.RED + "You don't have a warp called '" + args[0] + "'");
@@ -59,7 +59,7 @@ class RentPay extends SubCommand {
 		double balance = VaultLoader.getEconomy().getBalance(player);
 		if (balance >= required) {
 			VaultLoader.getEconomy().withdrawPlayer(player, required);
-			WarpDatabase.instance.setRentDays(player, args[0], daysToPay + numDaysPaid);
+			warp.setRentDaysPaid(daysToPay + numDaysPaid);
 			PlayerWarpPlugin.logger.log(player.getName() + " paid rent for " + daysToPay + " days for warp " + args[0]);
 			player.sendMessage(ChatColor.GREEN + "You paid rent for " + daysToPay + ", costing "
 					+ VaultLoader.getEconomy().format(required));
