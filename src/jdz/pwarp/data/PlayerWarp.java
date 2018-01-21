@@ -108,13 +108,13 @@ public class PlayerWarp {
 		moveToSolid();
 		
 		if (!isInClaimed()){
-			PlayerWarpPlugin.sqlMessageQueue.addQueuedMessage(getOwner(), ChatColor.RED+"Your warp "+getName()+" at "+WorldUtils.locationToString(location)+" was removed since you no longer have access to it's location");
+			PlayerWarpPlugin.sqlMessageQueue.addQueuedMessage(getOwner(), ChatColor.RED+"Your warp '"+getName()+"' at "+WorldUtils.locationToLegibleString(location)+" was removed since you no longer have access to it's location");
 			WarpDatabase.getInstance().delWarp(this);
 			if (getOwner().isOnline() && !getOwner().getPlayer().equals(player))
 			player.sendMessage(ChatColor.RED+"That warp is no longer in land accessable by the owner and has been removed");
 		}
 		else if (!isSafe()){
-			PlayerWarpPlugin.sqlMessageQueue.addQueuedMessage(getOwner(), ChatColor.RED+"Your warp "+getName()+" at"+WorldUtils.locationToString(location)+" was removed since it is no longer in a safe location");
+			PlayerWarpPlugin.sqlMessageQueue.addQueuedMessage(getOwner(), ChatColor.RED+"Your warp '"+getName()+"' at "+WorldUtils.locationToLegibleString(location)+" was removed since it is no longer in a safe location");
 			WarpDatabase.getInstance().delWarp(this);
 			if (getOwner().isOnline() && !getOwner().getPlayer().equals(player))
 			player.sendMessage(ChatColor.RED+"That warp is no longer safe and has been removed");
