@@ -5,7 +5,7 @@ Settings:
     - world_the_end
   maxLoreSize: 90
   log: true
-  
+  menuReturnCommand: ""
   
 # unsafeBlock: Blocks a player's teleport will be denied to, if they
 #              were to land on any of the blocks listed. eg: lava,

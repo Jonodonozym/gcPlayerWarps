@@ -18,6 +18,8 @@ public class WarpConfig {
 	
 	public static boolean log = true;
 	
+	public static String returnCommand = "";
+	
 	public static boolean safeWarpEnabled = true;
 	public static List<Integer> unsafeBlocks = new ArrayList<Integer>();
 	
@@ -34,6 +36,7 @@ public class WarpConfig {
 	public static boolean PSEnabled = false;
 	public static boolean ASEnabled = false;
 	
+	
 	public static void reloadConfig(){
 		FileConfiguration config = Config.getConfig(PlayerWarpPlugin.instance);
 		
@@ -44,6 +47,8 @@ public class WarpConfig {
 		loreLineWidth = maxLoreSize/3;
 		
 		log = config.getBoolean("Settings.log");
+		
+		returnCommand = config.getString("Settings.returnCommand");
 		
 		safeWarpEnabled = config.getBoolean("SafeWarp.enabled");
 		unsafeBlocks = config.getIntegerList("SafeWarp.unsafeBlocks");

@@ -2,6 +2,7 @@
 package jdz.pwarp.gui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -18,9 +19,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import jdz.bukkitUtils.guiMenu.guis.GuiMenu;
 import jdz.bukkitUtils.guiMenu.guis.GuiMenuList;
 import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStack;
+import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStackCommands;
 import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStackLinkedMenu;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
+import jdz.pwarp.data.WarpConfig;
 import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.events.WarpCreatedEvent;
 import jdz.pwarp.events.WarpDeletedEvent;
@@ -56,6 +59,15 @@ public class PlayerWarpGuiMenu extends GuiMenu {
 			
 			setItem(toListMenu, 11, inventory);
 			setItem(toMyWarpsMenu, 15, inventory);
+			
+			ClickableStackCommands returnArrow = new ClickableStackCommands(Material.ARROW,
+					ChatColor.AQUA + (WarpConfig.returnCommand.equals("") ? "Exit" : "Return"), false,
+					Arrays.asList(WarpConfig.returnCommand));
+			
+			if (WarpConfig.returnCommand.equals(""))
+				returnArrow.closeOnClick();
+
+			setItem(returnArrow, 22, inventory);
 		}
 	}
 
