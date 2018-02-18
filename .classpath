@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="D:/User/git/^^Libs/spigot-1.12.jar"/>
 	<classpathentry kind="lib" path="D:/User/git/^^Libs/Vault.jar"/>
 	<classpathentry kind="lib" path="D:/User/git/^^Libs/lombok.jar"/>
+	<classpathentry kind="lib" path="D:/User/git/^^Libs/spigot-1.8.8-R0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -33,7 +33,6 @@ public class PlayerWarp {
 	@Getter private List<String> lore;
 	@Getter private int rentDaysPaid;
 
-
 	public void setLoreLine(String lore, int line) {
 		this.lore.set(line, lore);
 		WarpDatabase.getInstance().setLore(this, lore, line);
@@ -148,5 +147,12 @@ public class PlayerWarp {
 	@Override
 	public int hashCode() {
 		return owner.hashCode()*name.hashCode();
+	}
+	
+	public PlayerWarp clone() {
+		PlayerWarp newWarp = new PlayerWarp(owner, location, name);
+		newWarp.lore = new ArrayList<String>(lore);
+		newWarp.rentDaysPaid = rentDaysPaid;
+		return newWarp;
 	}
 }
