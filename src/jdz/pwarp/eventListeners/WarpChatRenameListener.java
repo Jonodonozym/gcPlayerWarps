@@ -9,12 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.events.WarpRenamedEvent;
 
-@SuppressWarnings("deprecation")
 class WarpChatRenameListener implements Listener{
 	public static WarpChatRenameListener instance;
 	
@@ -25,7 +24,7 @@ class WarpChatRenameListener implements Listener{
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-	public void onChat(PlayerChatEvent event) {
+	public void onChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		
 		if (!nameDescisionListener.containsKey(player))

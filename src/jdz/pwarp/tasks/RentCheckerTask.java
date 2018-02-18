@@ -13,7 +13,7 @@ import jdz.pwarp.data.WarpManager;
 
 public class RentCheckerTask{
 	public static RentCheckerTask instance;
-	private Date nextCheck = getNextCheck(new Date(), 6, 0);
+	private Date nextCheck = getNextCheck(getLastCheck(), 24, 0);
 	private TimedTask task;
 	
 	public RentCheckerTask(PlayerWarpPlugin plugin) {
@@ -32,11 +32,14 @@ public class RentCheckerTask{
 	
 	public Date getLastCheck(){
 		FileConfiguration config = Config.getConfig(PlayerWarpPlugin.instance);
-		long lastCheck = config.getLong("Rent.lastCheck");
-		return new Date(lastCheck);
+		if (config.contains("Rent.lastCheck"))
+			return new Date(config.getLong("Rent.lastCheck"));
+		else
+			return new Date();
 	}
 	
 	public void setLastCheck(Date lastCheck){
+		nextCheck = getNextCheck(lastCheck, 24, 0);
 		try {
 			FileConfiguration config = Config.getConfig(PlayerWarpPlugin.instance);
 			config.set("Rent.lastCheck", lastCheck.getTime());
@@ -54,6 +57,7 @@ public class RentCheckerTask{
 		
 		if (date.getHours() > hours || date.getHours() == hours && date.getMinutes() > minutes)
 			c.add(Calendar.DATE, 1);
+		
 		Date nextDate = c.getTime();
 		nextDate.setHours(hours);
 		nextDate.setMinutes(minutes);
