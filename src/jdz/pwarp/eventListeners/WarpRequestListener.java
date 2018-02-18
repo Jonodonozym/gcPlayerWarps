@@ -117,8 +117,12 @@ class WarpRequestListener implements Listener {
 		player.sendMessage(
 				ChatColor.GREEN + "Teleported you to " + (warp.getOwner().isOnline()?warp.getOwner().getPlayer().getDisplayName():warp.getOwner().getName()) + ChatColor.GREEN + "'s warp " + warp.getName());
 		
-		for (Player everyone: Bukkit.getOnlinePlayers())
-			everyone.playSound(player.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 10, 1);
+		try {
+			for (Player everyone: Bukkit.getOnlinePlayers())
+				everyone.playSound(player.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 10, 1);
+		}
+		catch (NoSuchFieldError e) {
+		}
 		
 		if (warp.getOwner().isOnline())
 			warp.getOwner().getPlayer().sendMessage(ChatColor.GREEN + player.getDisplayName() + ChatColor.GREEN+" warped to your "+warp.getName()+" warp");

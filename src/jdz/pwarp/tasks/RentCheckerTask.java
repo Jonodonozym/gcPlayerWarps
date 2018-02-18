@@ -3,6 +3,8 @@ package jdz.pwarp.tasks;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import jdz.bukkitUtils.fileIO.FileLogger;
@@ -20,8 +22,11 @@ public class RentCheckerTask{
 		if (instance == null) {
 			task = new TimedTask(plugin, 1200, ()->{
 					if (new Date().after(nextCheck)){
+						Bukkit.broadcastMessage("Sys: "+new Date());
+						Bukkit.broadcastMessage("next: "+nextCheck);
 						WarpManager.getInstance().decreaseRentDays();
 						setLastCheck(new Date());
+						Bukkit.broadcastMessage("new next: "+nextCheck);
 					}
 				});
 			task.stop();
