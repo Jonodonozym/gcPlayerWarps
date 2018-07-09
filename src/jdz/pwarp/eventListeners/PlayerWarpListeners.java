@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import jdz.pwarp.data.PlayerWarp;
 
-public class PlayerWarpListeners {	
+public class PlayerWarpListeners {
 	public static void register(JavaPlugin plugin) {
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new WarpCreationDeletionListener(), plugin);
@@ -18,11 +18,11 @@ public class PlayerWarpListeners {
 		pm.registerEvents(new WarpChatCreateListener(), plugin);
 		pm.registerEvents(new WarpChatRenameListener(), plugin);
 	}
-	
+
 	public static void addRenameChatPlayer(Player player, PlayerWarp warp) {
 		WarpChatRenameListener.instance.addPlayer(player, warp);
 	}
-	
+
 	public static void addCreateChatPlayer(Player player) {
 		WarpChatCreateListener.instance.addPlayer(player);
 	}

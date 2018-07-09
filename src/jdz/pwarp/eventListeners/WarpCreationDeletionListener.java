@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import jdz.bukkitUtils.messengers.OfflineMessenger;
 import jdz.bukkitUtils.vault.VaultLoader;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.WarpConfig;
@@ -22,13 +23,13 @@ class WarpCreationDeletionListener implements Listener {
 	public void onWarpDelete(WarpDeletedEvent event) {
 		if (event.isCancelled())
 			return;
-		
+
 		WarpManager.getInstance().remove(event.getWarp());
-		
+
 		if (event.getCause() != null) {
 			event.getCause().sendMessage(ChatColor.GREEN + "Warp removed successfully");
 			if (!event.getCause().equals(event.getWarp().getOwner()) && event.getWarp().getOwner().isOnline())
-				PlayerWarpPlugin.sqlMessageQueue.addQueuedMessage(event.getWarp().getOwner(),
+				OfflineMessenger.getMessenger(PlayerWarpPlugin.getInstance()).message(event.getWarp().getOwner(),
 						ChatColor.RED + "Your warp '" + event.getWarp().getName() + "' was removed by an admin");
 		}
 	}
@@ -36,12 +37,13 @@ class WarpCreationDeletionListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onWarpCreatePreProcess(WarpCreatedEvent event) {
 		if (WarpConfig.warpCost > 0) {
-			Player player = (Player)event.getCause();
+			Player player = (Player) event.getCause();
 			Economy eco = VaultLoader.getEconomy();
-			
+
 			double balance = eco.getBalance(player);
 			if (balance < WarpConfig.warpCost) {
-				player.sendMessage(ChatColor.RED+"You need "+eco.format(WarpConfig.warpCost - balance)+" to create a warp!");
+				player.sendMessage(
+						ChatColor.RED + "You need " + eco.format(WarpConfig.warpCost - balance) + " to create a warp!");
 				event.setCancelled(true);
 			}
 		}
@@ -52,17 +54,17 @@ class WarpCreationDeletionListener implements Listener {
 	public void onWarpCreate(WarpCreatedEvent event) {
 		if (event.isCancelled())
 			return;
-		
+
 		if (WarpConfig.warpCost > 0) {
-			Player player = (Player)event.getCause();
+			Player player = (Player) event.getCause();
 			Economy eco = VaultLoader.getEconomy();
 			eco.withdrawPlayer(player, WarpConfig.warpCost);
-			player.sendMessage(ChatColor.GREEN+eco.format(WarpConfig.warpCost)+" has been taken from your account");
-			
+			player.sendMessage(ChatColor.GREEN + eco.format(WarpConfig.warpCost) + " has been taken from your account");
+
 			WarpManager.getInstance().add(event.getWarp());
-			
-			event.getCause().sendMessage(ChatColor.GREEN + "Warp set! to warp to it, use /pwarp " + event.getWarp().getOwner().getName() + " "
-					+ event.getWarp().getName());
+
+			event.getCause().sendMessage(ChatColor.GREEN + "Warp set! to warp to it, use /pwarp "
+					+ event.getWarp().getOwner().getName() + " " + event.getWarp().getName());
 		}
 	}
 
@@ -70,10 +72,10 @@ class WarpCreationDeletionListener implements Listener {
 	public void onWarpMove(WarpMovedEvent event) {
 		if (event.isCancelled())
 			return;
-		
+
 		event.getWarp().setLocation(event.getNewLocation());
-		
-		event.getCause().sendMessage(ChatColor.GREEN + "Warp set! to warp to it, use /pwarp " + event.getWarp().getOwner().getName() + " "
-				+ event.getWarp().getName());
+
+		event.getCause().sendMessage(ChatColor.GREEN + "Warp set! to warp to it, use /pwarp "
+				+ event.getWarp().getOwner().getName() + " " + event.getWarp().getName());
 	}
 }

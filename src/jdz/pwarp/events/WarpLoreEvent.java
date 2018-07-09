@@ -6,7 +6,7 @@ import org.bukkit.event.HandlerList;
 
 import jdz.pwarp.data.PlayerWarp;
 
-public class WarpLoreEvent extends WarpEvent{
+public class WarpLoreEvent extends WarpEvent {
 	private final String newLore;
 	private final int line;
 
@@ -15,15 +15,15 @@ public class WarpLoreEvent extends WarpEvent{
 		this.newLore = newLore;
 		this.line = line;
 	}
-	
+
 	public String getNewLore() {
 		return newLore;
 	}
-	
+
 	public int getLine() {
 		return line;
 	}
-	
+
 	public static HandlerList getHandlerList() {
 		return getHandlers(WarpLoreEvent.class);
 	}

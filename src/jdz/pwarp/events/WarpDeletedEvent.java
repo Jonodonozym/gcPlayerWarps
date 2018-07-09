@@ -7,7 +7,7 @@ import org.bukkit.event.HandlerList;
 import jdz.bukkitUtils.events.Cancellable;
 import jdz.pwarp.data.PlayerWarp;
 
-public class WarpDeletedEvent extends WarpEvent implements Cancellable{
+public class WarpDeletedEvent extends WarpEvent implements Cancellable {
 
 	public WarpDeletedEvent(Player player, PlayerWarp warp) {
 		super(player, warp);

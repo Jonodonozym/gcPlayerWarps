@@ -13,23 +13,26 @@ import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.eventListeners.PlayerWarpListeners;
 import net.md_5.bungee.api.ChatColor;
 
-class ClickableStackCreateWarp extends ClickableStack{
+class ClickableStackCreateWarp extends ClickableStack {
 	private final Player player;
 	private final boolean canCreate;
-	
+
 	public ClickableStackCreateWarp(Player player, boolean canCreate) {
-		super(Material.NETHER_STAR, ChatColor.GREEN+"Click to create a warp",
-				Arrays.asList(ChatColor.AQUA+"You can create "+ChatColor.BOLD+ChatColor.GOLD+
-				(WarpManager.getInstance().getNumWarpsAllowed(player) - WarpManager.getInstance().getAll(player).size())+
-				ChatColor.RESET+ChatColor.AQUA+" more warps"));
-		
+		super(Material.NETHER_STAR, ChatColor.GREEN + "Click to create a warp",
+				Arrays.asList(ChatColor.AQUA + "You can create " + ChatColor.BOLD + ChatColor.GOLD
+						+ (WarpManager.getInstance().getNumWarpsAllowed(player)
+								- WarpManager.getInstance().getAll(player).size())
+						+ ChatColor.RESET + ChatColor.AQUA + " more warps"));
+
 		this.player = player;
 		this.canCreate = canCreate;
-		
+
 		if (!canCreate)
-			setInfo(Material.BARRIER, ChatColor.RED+"Can't create any more warps", Arrays.asList(ChatColor.YELLOW+"Delete another warp to create more,", ChatColor.YELLOW+"or move existing ones"));
+			setInfo(Material.BARRIER, ChatColor.RED + "Can't create any more warps",
+					Arrays.asList(ChatColor.YELLOW + "Delete another warp to create more,",
+							ChatColor.YELLOW + "or move existing ones"));
 	}
-	
+
 	@Override
 	public void onClick(GuiMenu menu, InventoryClickEvent event) {
 		if (canCreate) {

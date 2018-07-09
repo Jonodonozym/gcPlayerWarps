@@ -7,11 +7,11 @@ import org.bukkit.Location;
 
 import lombok.Getter;
 
-class WarpDatabaseMulti implements WarpDatabase{
+class WarpDatabaseMulti implements WarpDatabase {
 	@Getter private static final WarpDatabaseMulti instance = new WarpDatabaseMulti();
-	
-	private WarpDatabaseMulti() { }
-	
+
+	private WarpDatabaseMulti() {}
+
 	@Override
 	public void addWarp(PlayerWarp warp) {
 		WarpDatabaseYML.getInstance().addWarp(warp);

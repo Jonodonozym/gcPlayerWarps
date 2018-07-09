@@ -44,26 +44,29 @@ public class PlayerWarpGuiMenu extends GuiMenu {
 			instance = this;
 
 			Bukkit.getPluginManager().registerEvents(new WarpChangeListener(this), plugin);
-			listMenu = new GuiMenuList(PlayerWarpPlugin.instance, ChatColor.GREEN+"All Warps", new ArrayList<ClickableStack>(), this);
+			listMenu = new GuiMenuList(PlayerWarpPlugin.getInstance(), ChatColor.GREEN + "All Warps",
+					new ArrayList<ClickableStack>(), this);
 			refreshList();
 
-			inventory = Bukkit.createInventory(null, 27, ChatColor.GREEN+"Player Warps");
+			inventory = Bukkit.createInventory(null, 27, ChatColor.GREEN + "Player Warps");
 
-			ClickableStack toListMenu = new ClickableStackLinkedMenu(Material.NETHER_STAR, ChatColor.AQUA+"All Warps", listMenu);
-			ClickableStack toMyWarpsMenu = new ClickableStackLinkedMenu(Material.ENDER_CHEST, ChatColor.GREEN+"My Warps", listMenu) {
+			ClickableStack toListMenu = new ClickableStackLinkedMenu(Material.NETHER_STAR, ChatColor.AQUA + "All Warps",
+					listMenu);
+			ClickableStack toMyWarpsMenu = new ClickableStackLinkedMenu(Material.ENDER_CHEST,
+					ChatColor.GREEN + "My Warps", listMenu) {
 				@Override
 				public void onClick(GuiMenu menu, InventoryClickEvent event) {
-					new GuiMenuMyWarps((Player)event.getWhoClicked(), instance).open((Player)event.getWhoClicked());
+					new GuiMenuMyWarps((Player) event.getWhoClicked(), instance).open((Player) event.getWhoClicked());
 				}
 			};
-			
+
 			setItem(toListMenu, 11, inventory);
 			setItem(toMyWarpsMenu, 15, inventory);
-			
+
 			ClickableStackCommands returnArrow = new ClickableStackCommands(Material.ARROW,
 					ChatColor.AQUA + (WarpConfig.returnCommand.equals("") ? "Exit" : "Return"), false,
 					Arrays.asList(WarpConfig.returnCommand));
-			
+
 			if (WarpConfig.returnCommand.equals(""))
 				returnArrow.closeOnClick();
 
@@ -78,13 +81,13 @@ public class PlayerWarpGuiMenu extends GuiMenu {
 				List<ClickableStack> items = new ArrayList<ClickableStack>();
 
 				List<PlayerWarp> warps = WarpManager.getInstance().getAllWarps();
-				
+
 				for (PlayerWarp warp : warps)
 					items.add(new ClickableStackWarp(warp));
 
 				listMenu.setItems(items);
 			}
-		}.runTaskAsynchronously(PlayerWarpPlugin.instance);
+		}.runTaskAsynchronously(PlayerWarpPlugin.getInstance());
 	}
 
 	@Override

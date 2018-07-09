@@ -14,31 +14,31 @@ import jdz.bukkitUtils.guiMenu.guis.GuiMenu;
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.eventListeners.PlayerWarpListeners;
 
-public class ClickableStackWarpEditable extends ClickableStackWarp{
+public class ClickableStackWarpEditable extends ClickableStackWarp {
 	private final PlayerWarp warp;
 
 	public ClickableStackWarpEditable(PlayerWarp warp) {
 		super(warp);
 		this.warp = warp;
 		getStack().setType(Material.PAPER);
-		getStack().setDurability((short)0);
-		
+		getStack().setDurability((short) 0);
+
 		ItemMeta itemMeta = getStack().getItemMeta();
-		
+
 		List<String> lore = itemMeta.getLore();
 		lore.remove(0);
-		lore.add(0, ChatColor.BLUE+"Rent days paid: "+warp.getRentDaysPaid());
-		lore.add(ChatColor.GREEN+"Middle click to rename");
-		lore.add(ChatColor.RED+"Right click to delete this warp");
-		
+		lore.add(0, ChatColor.BLUE + "Rent days paid: " + warp.getRentDaysPaid());
+		lore.add(ChatColor.GREEN + "Middle click to rename");
+		lore.add(ChatColor.RED + "Right click to delete this warp");
+
 		itemMeta.setLore(lore);
 		getStack().setItemMeta(itemMeta);
 	}
-	
+
 	@Override
 	public void onClick(GuiMenu menu, InventoryClickEvent event) {
-		Player player = (Player)event.getWhoClicked();
-		
+		Player player = (Player) event.getWhoClicked();
+
 		if (event.getClick() == ClickType.LEFT)
 			super.onClick(menu, event);
 		if (event.getClick() == ClickType.MIDDLE) {
@@ -46,7 +46,7 @@ public class ClickableStackWarpEditable extends ClickableStackWarp{
 			PlayerWarpListeners.addRenameChatPlayer(player, warp);
 		}
 		if (event.getClick() == ClickType.RIGHT)
-			new GuiMenuConfirmDeletion(player, warp, (GuiMenuMyWarps)menu).open(player);
+			new GuiMenuConfirmDeletion(player, warp, (GuiMenuMyWarps) menu).open(player);
 	}
 
 }

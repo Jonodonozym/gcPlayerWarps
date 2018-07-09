@@ -6,7 +6,7 @@ import org.bukkit.event.HandlerList;
 
 import jdz.pwarp.data.PlayerWarp;
 
-public class WarpRentExpiredEvent extends WarpEvent{
+public class WarpRentExpiredEvent extends WarpEvent {
 
 	public WarpRentExpiredEvent(PlayerWarp warp) {
 		super(Bukkit.getConsoleSender(), warp);

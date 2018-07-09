@@ -106,7 +106,7 @@ class WarpRequestListener implements Listener {
 	public void onWarp(WarpGoEvent event) {
 		if (event.isCancelled())
 			return;
-		
+
 		Player player = (Player) event.getCause();
 		PlayerWarp warp = event.getWarp();
 
@@ -114,17 +114,19 @@ class WarpRequestListener implements Listener {
 			cooldowns.put(player, WarpConfig.teleportCooldown);
 
 		player.teleport(warp.getLocation().add(0, 1, 0));
-		player.sendMessage(
-				ChatColor.GREEN + "Teleported you to " + (warp.getOwner().isOnline()?warp.getOwner().getPlayer().getDisplayName():warp.getOwner().getName()) + ChatColor.GREEN + "'s warp " + warp.getName());
-		
+		player.sendMessage(ChatColor.GREEN + "Teleported you to "
+				+ (warp.getOwner().isOnline() ? warp.getOwner().getPlayer().getDisplayName()
+						: warp.getOwner().getName())
+				+ ChatColor.GREEN + "'s warp " + warp.getName());
+
 		try {
-			for (Player everyone: Bukkit.getOnlinePlayers())
+			for (Player everyone : Bukkit.getOnlinePlayers())
 				everyone.playSound(player.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 10, 1);
 		}
-		catch (NoSuchFieldError e) {
-		}
-		
+		catch (NoSuchFieldError e) {}
+
 		if (warp.getOwner().isOnline())
-			warp.getOwner().getPlayer().sendMessage(ChatColor.GREEN + player.getDisplayName() + ChatColor.GREEN+" warped to your "+warp.getName()+" warp");
+			warp.getOwner().getPlayer().sendMessage(ChatColor.GREEN + player.getDisplayName() + ChatColor.GREEN
+					+ " warped to your " + warp.getName() + " warp");
 	}
 }

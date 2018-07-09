@@ -2,13 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="D:/User/git/^^Libs/askyblock.jar"/>
-	<classpathentry kind="lib" path="D:/User/git/^^Libs/GriefPrevention.jar"/>
-	<classpathentry kind="lib" path="D:/User/git/^^Libs/JBU.jar"/>
-	<classpathentry kind="lib" path="D:/User/git/^^Libs/PlotSquared.jar"/>
-	<classpathentry kind="lib" path="D:/User/git/^^Libs/spigot-1.12.jar"/>
-	<classpathentry kind="lib" path="D:/User/git/^^Libs/Vault.jar"/>
 	<classpathentry kind="lib" path="D:/User/git/^^Libs/lombok.jar"/>
-	<classpathentry kind="lib" path="D:/User/git/^^Libs/spigot-1.8.8-R0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="D:/User/git/^^Libs/Minecraft Plugins/askyblock.jar"/>
+	<classpathentry kind="lib" path="D:/User/git/^^Libs/Minecraft Plugins/GriefPrevention.jar"/>
+	<classpathentry kind="lib" path="D:/User/git/^^Libs/Minecraft Plugins/JBU.jar"/>
+	<classpathentry kind="lib" path="D:/User/git/^^Libs/Minecraft Plugins/PlotSquared.jar"/>
+	<classpathentry kind="lib" path="D:/User/git/^^Libs/Minecraft Plugins/spigot-1.12.jar"/>
+	<classpathentry kind="lib" path="D:/User/git/^^Libs/Minecraft Plugins/Vault.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

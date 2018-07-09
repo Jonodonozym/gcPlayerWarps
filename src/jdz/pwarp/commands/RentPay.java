@@ -1,16 +1,14 @@
 
 package jdz.pwarp.commands;
 
-import java.util.Set;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import jdz.bukkitUtils.commands.SubCommand;
 import jdz.bukkitUtils.commands.annotations.CommandLabel;
 import jdz.bukkitUtils.commands.annotations.CommandRequiredArgs;
 import jdz.bukkitUtils.commands.annotations.CommandUsage;
-import jdz.bukkitUtils.commands.SubCommand;
 import jdz.bukkitUtils.vault.VaultLoader;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
@@ -23,7 +21,7 @@ import jdz.pwarp.data.WarpManager;
 class RentPay extends SubCommand {
 
 	@Override
-	public void execute(CommandSender sender, Set<String> flags, String... args) {
+	public void execute(CommandSender sender, String... args) {
 		Player player = (Player) sender;
 
 		PlayerWarp warp = WarpManager.getInstance().get(player, args[0]);
@@ -40,7 +38,8 @@ class RentPay extends SubCommand {
 			daysToPay = Integer.parseInt(args[1]);
 			if (daysToPay < 1)
 				throw new NumberFormatException();
-		} catch (NumberFormatException e) {
+		}
+		catch (NumberFormatException e) {
 			sender.sendMessage(ChatColor.RED + "'" + args[1] + "' is not a valid number of days");
 			return;
 		}
@@ -63,7 +62,8 @@ class RentPay extends SubCommand {
 			PlayerWarpPlugin.logger.log(player.getName() + " paid rent for " + daysToPay + " days for warp " + args[0]);
 			player.sendMessage(ChatColor.GREEN + "You paid rent for " + daysToPay + ", costing "
 					+ VaultLoader.getEconomy().format(required));
-		} else
+		}
+		else
 			player.sendMessage(ChatColor.RED + "You need " + VaultLoader.getEconomy().format(required - balance)
 					+ " more to do that");
 	}

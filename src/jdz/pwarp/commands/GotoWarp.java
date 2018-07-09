@@ -1,18 +1,16 @@
 
 package jdz.pwarp.commands;
 
-import java.util.Set;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import jdz.bukkitUtils.commands.SubCommand;
 import jdz.bukkitUtils.commands.annotations.CommandLabel;
 import jdz.bukkitUtils.commands.annotations.CommandPermission;
 import jdz.bukkitUtils.commands.annotations.CommandRequiredArgs;
 import jdz.bukkitUtils.commands.annotations.CommandUsage;
-import jdz.bukkitUtils.commands.SubCommand;
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.data.WarpManager;
 import net.md_5.bungee.api.ChatColor;
@@ -23,14 +21,13 @@ import net.md_5.bungee.api.ChatColor;
 @CommandRequiredArgs(2)
 @CommandUsage("warp <player> <warpName>")
 @CommandPermission("pwarp.teleport")
-class GotoWarp extends SubCommand{
+class GotoWarp extends SubCommand {
 
 	@Override
-	public void execute(CommandSender sender, Set<String> flags, String... args) {
+	public void execute(CommandSender sender, String... args) {
 		Player player = (Player) sender;
-		
-		@SuppressWarnings("deprecation")
-		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+
+		@SuppressWarnings("deprecation") OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		if (target == null)
 			player.sendMessage(ChatColor.RED + args[0] + " has never logged in before!");
 		else if (args.length < 2)

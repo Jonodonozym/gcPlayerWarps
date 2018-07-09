@@ -3,17 +3,16 @@ package jdz.pwarp.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
+import jdz.bukkitUtils.commands.SubCommand;
 import jdz.bukkitUtils.commands.annotations.CommandLabel;
 import jdz.bukkitUtils.commands.annotations.CommandPermission;
 import jdz.bukkitUtils.commands.annotations.CommandUsage;
-import jdz.bukkitUtils.commands.SubCommand;
 import jdz.bukkitUtils.misc.StringUtils;
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.data.WarpManager;
@@ -26,9 +25,9 @@ import jdz.pwarp.data.WarpManager;
 class ListWarps extends SubCommand {
 
 	@Override
-	public void execute(CommandSender sender, Set<String> flags, String... args) {
-		OfflinePlayer targetPlayer = (OfflinePlayer)sender;
-		
+	public void execute(CommandSender sender, String... args) {
+		OfflinePlayer targetPlayer = (OfflinePlayer) sender;
+
 		if (args.length > 0) {
 			targetPlayer = Bukkit.getOfflinePlayer(args[0]);
 			if (targetPlayer == null) {
@@ -36,7 +35,7 @@ class ListWarps extends SubCommand {
 				return;
 			}
 		}
-		
+
 		boolean same = targetPlayer.equals(sender);
 
 		List<PlayerWarp> warps = WarpManager.getInstance().getAll(targetPlayer);
@@ -45,10 +44,10 @@ class ListWarps extends SubCommand {
 			warpNames.add(warp.getName());
 
 		if (warpNames.isEmpty())
-			sender.sendMessage(ChatColor.GRAY+(same?"You have no warps":args[0]+" has no warps"));
-		else{
-			sender.sendMessage(ChatColor.GRAY + "============[ " + ChatColor.GOLD + (same?"My":args[0]+"'s") + " Warps "
-					+ ChatColor.GRAY + "]============");
+			sender.sendMessage(ChatColor.GRAY + (same ? "You have no warps" : args[0] + " has no warps"));
+		else {
+			sender.sendMessage(ChatColor.GRAY + "============[ " + ChatColor.GOLD + (same ? "My" : args[0] + "'s")
+					+ " Warps " + ChatColor.GRAY + "]============");
 			sender.sendMessage(StringUtils.listToString(warpNames, ","));
 			sender.sendMessage(ChatColor.GRAY + "==================================");
 		}
