@@ -29,7 +29,7 @@ public class RentCheckerTask {
 				}
 			});
 			task.stop();
-			WarpDatabase.runOnConnect(() -> {
+			WarpDatabase.getInstance().runOnConnect(() -> {
 				task.start();
 			});
 			instance = this;

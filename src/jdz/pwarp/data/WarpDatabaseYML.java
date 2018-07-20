@@ -132,4 +132,9 @@ public class WarpDatabaseYML implements WarpDatabase {
 		return warps;
 	}
 
+	@Override
+	public void runOnConnect(Runnable r) {
+		r.run();
+	}
+
 }

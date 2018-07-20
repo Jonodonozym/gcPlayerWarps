@@ -5,17 +5,22 @@ import java.util.List;
 
 import org.bukkit.Location;
 
+import jdz.bukkitUtils.sql.minecraft.DBProvider;
+import jdz.pwarp.PlayerWarpPlugin;
+
 public interface WarpDatabase {
+	public static final DBProvider<WarpDatabase> dbProvider = new DBProvider<WarpDatabase>(
+			PlayerWarpPlugin.getInstance(), () -> {
+				return WarpDatabaseSQL.getInstance();
+			}, () -> {
+				return WarpDatabaseYML.getInstance();
+			});
+
 	public static WarpDatabase getInstance() {
-		return WarpDatabaseYML.getInstance();
+		return dbProvider.get();
 	}
 
-	public static void runOnConnect(Runnable r) {
-		if (getInstance() instanceof WarpDatabaseMulti || getInstance() instanceof WarpDatabaseSQL)
-			WarpDatabaseSQL.getInstance().runOnConnect(r);
-		else
-			r.run();
-	}
+	public void runOnConnect(Runnable r);
 
 	public void addWarp(PlayerWarp warp);
 
