@@ -23,7 +23,7 @@ class Rent extends ParentCommand {
 		commands.add(rentList);
 		commands.add(new RentPay());
 		commands.add(new RentPayAll());
-		// setDefaultCommand(rentList);
+		setDefaultCommand(rentList);
 	}
 
 	@Override

@@ -11,6 +11,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import jdz.bukkitUtils.guiMenu.guis.GuiMenu;
+import jdz.bukkitUtils.misc.Config;
+import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.eventListeners.PlayerWarpListeners;
 
@@ -27,7 +29,10 @@ public class ClickableStackWarpEditable extends ClickableStackWarp {
 
 		List<String> lore = itemMeta.getLore();
 		lore.remove(0);
-		lore.add(0, ChatColor.BLUE + "Rent days paid: " + warp.getRentDaysPaid());
+
+		if (Config.getConfig(PlayerWarpPlugin.getInstance()).getBoolean("Rent.enabled"))
+			lore.add(0, ChatColor.BLUE + "Rent days paid: " + warp.getRentDaysPaid());
+
 		lore.add(ChatColor.GREEN + "Middle click to rename");
 		lore.add(ChatColor.RED + "Right click to delete this warp");
 

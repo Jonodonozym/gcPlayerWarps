@@ -17,22 +17,32 @@ import com.wasteofplastic.askyblock.Island;
 
 import jdz.bukkitUtils.messengers.OfflineMessenger;
 import jdz.bukkitUtils.misc.WorldUtils;
+import jdz.bukkitUtils.sql.ORM.NoSave;
+import jdz.bukkitUtils.sql.ORM.SQLDataClass;
 import jdz.bukkitUtils.vault.VaultLoader;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.events.WarpRequestEvent;
-import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import net.md_5.bungee.api.ChatColor;
 
-@AllArgsConstructor
-public class PlayerWarp {
+@EqualsAndHashCode(of = { "owner", "name" }, callSuper = false)
+public class PlayerWarp extends SQLDataClass {
 	@Getter private final OfflinePlayer owner;
 	@Getter private Location location;
 	@Getter private String name;
-	@Getter private List<String> lore;
+	@NoSave @Getter private List<String> lore;
 	@Getter private int rentDaysPaid;
+
+	public PlayerWarp(OfflinePlayer owner, Location location, String name, List<String> lore, int rentDaysPaid) {
+		this.owner = owner;
+		this.location = location;
+		this.name = name.replaceAll(".|\"|'|:", "");
+		this.lore = lore;
+		this.rentDaysPaid = rentDaysPaid;
+	}
 
 	public void setLoreLine(String lore, int line) {
 		this.lore.set(line, lore);
@@ -144,19 +154,6 @@ public class PlayerWarp {
 
 		if (!location.equals(startingLocation))
 			WarpDatabase.getInstance().move(this, location);
-	}
-
-	@Override
-	public boolean equals(Object other) {
-		if (other instanceof PlayerWarp)
-			return ((PlayerWarp) other).getName().equalsIgnoreCase(name)
-					&& ((PlayerWarp) other).getOwner().equals(owner);
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return owner.hashCode() * name.hashCode();
 	}
 
 	@Override

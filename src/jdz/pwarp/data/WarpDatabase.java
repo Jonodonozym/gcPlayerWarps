@@ -7,7 +7,7 @@ import org.bukkit.Location;
 
 public interface WarpDatabase {
 	public static WarpDatabase getInstance() {
-		return WarpDatabaseMulti.getInstance();
+		return WarpDatabaseYML.getInstance();
 	}
 
 	public static void runOnConnect(Runnable r) {

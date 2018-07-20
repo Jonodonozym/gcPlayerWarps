@@ -125,6 +125,7 @@ public class WarpDatabaseYML implements WarpDatabase {
 				int rentDaysPaid = config.getInt(key + ".RentDaysPaid");
 
 				PlayerWarp warp = new PlayerWarp(owner, l, warpName, lore, rentDaysPaid);
+				System.out.println(warp);
 
 				warps.add(warp);
 			}
