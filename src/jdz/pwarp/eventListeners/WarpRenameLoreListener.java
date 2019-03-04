@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import jdz.bukkitUtils.messengers.OfflineMessenger;
+import jdz.bukkitUtils.components.messengers.OfflineMessenger;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.events.WarpLoreEvent;

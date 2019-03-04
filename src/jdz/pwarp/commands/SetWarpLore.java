@@ -10,7 +10,7 @@ import jdz.bukkitUtils.commands.annotations.CommandLabel;
 import jdz.bukkitUtils.commands.annotations.CommandPermission;
 import jdz.bukkitUtils.commands.annotations.CommandRequiredArgs;
 import jdz.bukkitUtils.commands.annotations.CommandUsage;
-import jdz.bukkitUtils.misc.StringUtils;
+import jdz.bukkitUtils.utils.StringUtils;
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.events.WarpLoreEvent;

@@ -16,14 +16,14 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import jdz.bukkitUtils.guiMenu.guis.GuiMenu;
-import jdz.bukkitUtils.guiMenu.guis.GuiMenuList;
-import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStack;
-import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStackCommands;
-import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStackLinkedMenu;
+import jdz.bukkitUtils.components.guiMenu.guis.GuiMenu;
+import jdz.bukkitUtils.components.guiMenu.guis.GuiMenuList;
+import jdz.bukkitUtils.components.guiMenu.itemStacks.ClickableStack;
+import jdz.bukkitUtils.components.guiMenu.itemStacks.ClickableStackCommands;
+import jdz.bukkitUtils.components.guiMenu.itemStacks.ClickableStackLinkedMenu;
 import jdz.pwarp.PlayerWarpPlugin;
+import jdz.pwarp.config.WarpConfig;
 import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpConfig;
 import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.events.WarpCreatedEvent;
 import jdz.pwarp.events.WarpDeletedEvent;
@@ -64,10 +64,10 @@ public class PlayerWarpGuiMenu extends GuiMenu {
 			setItem(toMyWarpsMenu, 15, inventory);
 
 			ClickableStackCommands returnArrow = new ClickableStackCommands(Material.ARROW,
-					ChatColor.AQUA + (WarpConfig.returnCommand.equals("") ? "Exit" : "Return"), false,
-					Arrays.asList(WarpConfig.returnCommand));
+					ChatColor.AQUA + (WarpConfig.getMenuReturnCommand().equals("") ? "Exit" : "Return"), false,
+					Arrays.asList(WarpConfig.getMenuReturnCommand()));
 
-			if (WarpConfig.returnCommand.equals(""))
+			if (WarpConfig.getMenuReturnCommand().equals(""))
 				returnArrow.closeOnClick();
 
 			setItem(returnArrow, 22, inventory);
@@ -78,7 +78,7 @@ public class PlayerWarpGuiMenu extends GuiMenu {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				List<ClickableStack> items = new ArrayList<ClickableStack>();
+				List<ClickableStack> items = new ArrayList<>();
 
 				List<PlayerWarp> warps = WarpManager.getInstance().getAllWarps();
 

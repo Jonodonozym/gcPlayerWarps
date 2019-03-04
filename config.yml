@@ -6,6 +6,9 @@ Settings:
   maxLoreSize: 90
   log: true
   menuReturnCommand: ""
+  GriefPrevetionEnabled: false
+  PlotSquaredEnabled: false
+  ASkyBlockEnabled: false
   
 # unsafeBlock: Blocks a player's teleport will be denied to, if they
 #              were to land on any of the blocks listed. eg: lava,
@@ -32,19 +35,7 @@ Rent:
   
 # Speaks for itself
 Teleport:
+  noCooldownPermission: pwarp.nocooldown
   cooldown: 10
   warmup: 5
   cancelOnMovement: true
-    
-    
-# Hooks into griefprevention so that players can only set their own warps in their own claimed area.
-GriefPrevetion:
-  enabled: false
-  
-# Hooks into PlotSquared so that players can only set their warp on their own plot.
-PlotSquared:
-  enabled: false
-  
-# Hooks into ASkyBlock so that players can only set their warp on their own island.
-ASkyBlock:
-  enabled: false

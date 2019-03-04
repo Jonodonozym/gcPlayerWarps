@@ -12,9 +12,9 @@ import jdz.bukkitUtils.commands.annotations.CommandPermission;
 import jdz.bukkitUtils.commands.annotations.CommandRequiredArgs;
 import jdz.bukkitUtils.commands.annotations.CommandShortDescription;
 import jdz.bukkitUtils.commands.annotations.CommandUsage;
-import jdz.bukkitUtils.misc.WorldUtils;
+import jdz.bukkitUtils.utils.WorldUtils;
+import jdz.pwarp.config.WarpConfig;
 import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpConfig;
 import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.events.WarpCreatedEvent;
 import jdz.pwarp.events.WarpEvent;
@@ -55,11 +55,11 @@ final class SetWarp extends SubCommand {
 		PlayerWarp warp = new PlayerWarp(target, location, name);
 		if (!warp.isInClaimed()) {
 			String part = target.isOnline() && sender.equals(target.getPlayer()) ? "your" : "their";
-			if (WarpConfig.ASEnabled)
+			if (WarpConfig.isASkyblockEnabled())
 				sender.sendMessage(ChatColor.RED + "You can only place warps on " + part + " island!");
-			if (WarpConfig.PSEnabled)
+			if (WarpConfig.isPlotSquaredEnabled())
 				sender.sendMessage(ChatColor.RED + "You can only place warps in " + part + " plots");
-			if (WarpConfig.GPEnabled)
+			if (WarpConfig.isGriefPreventionEnabled())
 				sender.sendMessage(ChatColor.RED + "You can only place warps in " + part + " claimed land");
 			return;
 		}

@@ -13,7 +13,7 @@ import jdz.bukkitUtils.commands.SubCommand;
 import jdz.bukkitUtils.commands.annotations.CommandLabel;
 import jdz.bukkitUtils.commands.annotations.CommandPermission;
 import jdz.bukkitUtils.commands.annotations.CommandUsage;
-import jdz.bukkitUtils.misc.StringUtils;
+import jdz.bukkitUtils.utils.StringUtils;
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.data.WarpManager;
 
@@ -39,7 +39,7 @@ class ListWarps extends SubCommand {
 		boolean same = targetPlayer.equals(sender);
 
 		List<PlayerWarp> warps = WarpManager.getInstance().getAll(targetPlayer);
-		List<String> warpNames = new ArrayList<String>();
+		List<String> warpNames = new ArrayList<>();
 		for (PlayerWarp warp : warps)
 			warpNames.add(warp.getName());
 

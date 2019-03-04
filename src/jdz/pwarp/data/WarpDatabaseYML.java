@@ -12,9 +12,9 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import jdz.bukkitUtils.configuration.Config;
 import jdz.bukkitUtils.fileIO.FileLogger;
-import jdz.bukkitUtils.misc.Config;
-import jdz.bukkitUtils.misc.WorldUtils;
+import jdz.bukkitUtils.utils.WorldUtils;
 import jdz.pwarp.PlayerWarpPlugin;
 import lombok.Getter;
 
@@ -111,14 +111,14 @@ public class WarpDatabaseYML implements WarpDatabase {
 
 	@Override
 	public List<PlayerWarp> getAllWarps() {
-		List<PlayerWarp> warps = new ArrayList<PlayerWarp>();
+		List<PlayerWarp> warps = new ArrayList<>();
 		for (String uuid : config.getKeys(false))
 			for (String warpName : config.getConfigurationSection(uuid).getKeys(false)) {
 				String key = uuid + "." + warpName;
 				OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
 				Location l = WorldUtils.locationFromString(config.getString(key + ".location"));
 
-				List<String> lore = new ArrayList<String>();
+				List<String> lore = new ArrayList<>();
 				for (int i = 0; i < 3; i++)
 					lore.add(config.getString(key + ".lore" + i));
 

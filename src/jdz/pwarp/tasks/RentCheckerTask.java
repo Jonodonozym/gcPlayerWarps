@@ -1,61 +1,42 @@
 package jdz.pwarp.tasks;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.Bukkit;
 
-import jdz.bukkitUtils.fileIO.FileLogger;
-import jdz.bukkitUtils.misc.Config;
-import jdz.bukkitUtils.misc.TimedTask;
+import jdz.bukkitUtils.configuration.AutoConfig;
+import jdz.bukkitUtils.configuration.Config;
+import jdz.bukkitUtils.configuration.NotConfig;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.WarpDatabase;
 import jdz.pwarp.data.WarpManager;
+import lombok.Getter;
 
-public class RentCheckerTask {
-	public static RentCheckerTask instance;
-	private Date nextCheck = getNextCheck(getLastCheck(), 24, 0);
-	private TimedTask task;
+public class RentCheckerTask extends AutoConfig {
+	@NotConfig @Getter private static RentCheckerTask instance;
+	private Date lastCheck = new Date();
 
 	public RentCheckerTask(PlayerWarpPlugin plugin) {
-		if (instance == null) {
-			task = new TimedTask(plugin, 1200, () -> {
-				if (new Date().after(nextCheck)) {
-					setLastCheck(new Date());
+		super(plugin);
+		register();
+		reloadConfig();
 
+		WarpDatabase.getInstance().runOnConnect(() -> {
+			Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+				if (new Date().after(getNextCheck(lastCheck, 24, 0))) {
+					setLastCheck(new Date());
 					if (Config.getConfig(plugin).getBoolean("Rent.enabled"))
 						WarpManager.getInstance().decreaseRentDays();
 				}
-			});
-			task.stop();
-			WarpDatabase.getInstance().runOnConnect(() -> {
-				task.start();
-			});
-			instance = this;
-		}
-	}
-
-	public Date getLastCheck() {
-		FileConfiguration config = Config.getConfig(PlayerWarpPlugin.getInstance());
-		if (config.contains("Rent.lastCheck"))
-			return new Date(config.getLong("Rent.lastCheck"));
-		else
-			return new Date();
+			}, 20, 20);
+		});
 	}
 
 	public void setLastCheck(Date lastCheck) {
-		nextCheck = getNextCheck(lastCheck, 24, 0);
-		try {
-			FileConfiguration config = Config.getConfig(PlayerWarpPlugin.getInstance());
-			config.set("Rent.lastCheck", lastCheck.getTime());
-			config.save(Config.getConfigFile(PlayerWarpPlugin.getInstance()));
-		}
-		catch (IOException e) {
-			new FileLogger(PlayerWarpPlugin.getInstance()).createErrorLog(e);
-		}
+		this.lastCheck = lastCheck;
+		saveChanges();
 	}
-
 
 	@SuppressWarnings("deprecation")
 	private Date getNextCheck(Date date, int hours, int minutes) {

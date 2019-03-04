@@ -16,7 +16,7 @@ import jdz.bukkitUtils.commands.annotations.CommandUsage;
 @CommandPermission("pwarp.rent")
 class Rent extends ParentCommand {
 	private final RentList rentList = new RentList();
-	private final List<SubCommand> commands = new ArrayList<SubCommand>();
+	private final List<SubCommand> commands = new ArrayList<>();
 
 	public Rent(CommandExecutor executor) {
 		super(executor);

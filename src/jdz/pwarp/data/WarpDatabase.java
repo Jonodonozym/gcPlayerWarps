@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.bukkit.Location;
 
-import jdz.bukkitUtils.sql.minecraft.DBProvider;
+import jdz.bukkitUtils.persistence.minecraft.DBProvider;
 import jdz.pwarp.PlayerWarpPlugin;
 
 public interface WarpDatabase {
-	public static final DBProvider<WarpDatabase> dbProvider = new DBProvider<WarpDatabase>(
+	public static final DBProvider<WarpDatabase> dbProvider = new DBProvider<>(
 			PlayerWarpPlugin.getInstance(), () -> {
 				return WarpDatabaseSQL.getInstance();
 			}, () -> {

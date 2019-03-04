@@ -9,9 +9,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import jdz.bukkitUtils.guiMenu.guis.GuiMenu;
-import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStack;
-import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStackLinkedMenu;
+import jdz.bukkitUtils.components.guiMenu.guis.GuiMenu;
+import jdz.bukkitUtils.components.guiMenu.itemStacks.ClickableStack;
+import jdz.bukkitUtils.components.guiMenu.itemStacks.ClickableStackLinkedMenu;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.data.WarpManager;
@@ -34,8 +34,7 @@ class GuiMenuMyWarps extends GuiMenu {
 
 		List<PlayerWarp> myWarps = WarpManager.getInstance().getAll(player);
 
-		inventory = Bukkit.createInventory(player, Math.max((myWarps.size() / 9) * 9, 36),
-				ChatColor.GREEN + "My Warps");
+		inventory = Bukkit.createInventory(player, Math.max(myWarps.size() / 9 * 9, 36), ChatColor.GREEN + "My Warps");
 
 		for (int i = 0; i < myWarps.size(); i++)
 			setItem(new ClickableStackWarpEditable(myWarps.get(i)), i, inventory);

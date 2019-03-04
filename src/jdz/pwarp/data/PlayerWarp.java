@@ -15,12 +15,14 @@ import com.intellectualcrafters.plot.object.Plot;
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
 import com.wasteofplastic.askyblock.Island;
 
-import jdz.bukkitUtils.messengers.OfflineMessenger;
-import jdz.bukkitUtils.misc.WorldUtils;
-import jdz.bukkitUtils.sql.ORM.NoSave;
-import jdz.bukkitUtils.sql.ORM.SQLDataClass;
-import jdz.bukkitUtils.vault.VaultLoader;
+import jdz.bukkitUtils.components.messengers.OfflineMessenger;
+import jdz.bukkitUtils.persistence.ORM.NoSave;
+import jdz.bukkitUtils.persistence.ORM.SQLDataClass;
+import jdz.bukkitUtils.pluginExtensions.vault.VaultLoader;
+import jdz.bukkitUtils.utils.WorldUtils;
 import jdz.pwarp.PlayerWarpPlugin;
+import jdz.pwarp.config.SafeWarpConfig;
+import jdz.pwarp.config.WarpConfig;
 import jdz.pwarp.events.WarpRequestEvent;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -50,7 +52,7 @@ public class PlayerWarp extends SQLDataClass {
 	}
 
 	public void setLocation(Location l) {
-		this.location = l;
+		location = l;
 		WarpDatabase.getInstance().move(this, l);
 	}
 
@@ -60,21 +62,21 @@ public class PlayerWarp extends SQLDataClass {
 	}
 
 	public void setRentDaysPaid(int daysPaid) {
-		this.rentDaysPaid = daysPaid;
+		rentDaysPaid = daysPaid;
 		WarpDatabase.getInstance().setRentDays(this, daysPaid);
 	}
 
 	public PlayerWarp(OfflinePlayer owner, Location location, String name) {
-		this(owner, location, name, new ArrayList<String>(Arrays.asList("", "", "")), 10);
+		this(owner, location, name, new ArrayList<>(Arrays.asList("", "", "")), 10);
 	}
 
 	@SuppressWarnings("deprecation")
 	public boolean isSafe() {
-		if (WarpConfig.safeWarpEnabled) {
+		if (SafeWarpConfig.isEnabled())
 			for (int i = 0; i < 3; i++)
-				if (WarpConfig.unsafeBlocks.contains(location.clone().add(0, i, 0).getBlock().getTypeId()))
+				if (SafeWarpConfig.getUnsafeBlocks()
+						.contains(location.clone().add(0, i, 0).getBlock().getType().getId()))
 					return false;
-		}
 		if (location.getBlockY() == 0)
 			return false;
 		return true;
@@ -86,24 +88,23 @@ public class PlayerWarp extends SQLDataClass {
 				"pwarp.bypasshooks"))
 			return true;
 
-		if (WarpConfig.ASEnabled) {
+		if (WarpConfig.isASkyblockEnabled()) {
 			Island island = ASkyBlockAPI.getInstance().getIslandAt(location.clone());
-			if (island == null || (!island.getMembers().contains(owner.getUniqueId()))) {
+			if (island == null || !island.getMembers().contains(owner.getUniqueId()))
 				return false;
-			}
 		}
 
-		if (WarpConfig.PSEnabled) {
+		if (WarpConfig.isPlotSquaredEnabled()) {
 			Plot plot = new PlotAPI().getPlot(location.clone());
-			if (plot == null || (!plot.getOwners().contains(owner.getUniqueId())
-					&& !plot.getMembers().contains(owner.getUniqueId())))
+			if (plot == null || !plot.getOwners().contains(owner.getUniqueId())
+					&& !plot.getMembers().contains(owner.getUniqueId()))
 				return false;
 		}
 
-		if (WarpConfig.GPEnabled) {
+		if (WarpConfig.isGriefPreventionEnabled()) {
 			Claim claim = GriefPrevention.instance.dataStore.getClaimAt(location.clone(), true, null);
 			if (claim != null) {
-				ArrayList<String> permissionsList = new ArrayList<String>();
+				ArrayList<String> permissionsList = new ArrayList<>();
 				claim.getPermissions(permissionsList, new ArrayList<String>(), permissionsList, permissionsList);
 				if (!permissionsList.contains(owner.getUniqueId().toString()))
 					return false;
@@ -159,7 +160,7 @@ public class PlayerWarp extends SQLDataClass {
 	@Override
 	public PlayerWarp clone() {
 		PlayerWarp newWarp = new PlayerWarp(owner, location, name);
-		newWarp.lore = new ArrayList<String>(lore);
+		newWarp.lore = new ArrayList<>(lore);
 		newWarp.rentDaysPaid = rentDaysPaid;
 		return newWarp;
 	}

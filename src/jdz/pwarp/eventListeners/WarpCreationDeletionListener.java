@@ -6,10 +6,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import jdz.bukkitUtils.messengers.OfflineMessenger;
-import jdz.bukkitUtils.vault.VaultLoader;
+import jdz.bukkitUtils.components.messengers.OfflineMessenger;
+import jdz.bukkitUtils.pluginExtensions.vault.VaultLoader;
 import jdz.pwarp.PlayerWarpPlugin;
-import jdz.pwarp.data.WarpConfig;
+import jdz.pwarp.config.WarpConfig;
 import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.events.WarpCreatedEvent;
 import jdz.pwarp.events.WarpDeletedEvent;
@@ -28,7 +28,8 @@ class WarpCreationDeletionListener implements Listener {
 
 		if (event.getCause() != null) {
 			event.getCause().sendMessage(ChatColor.GREEN + "Warp removed successfully");
-			if (!event.getCause().equals(event.getWarp().getOwner()) && event.getWarp().getOwner().isOnline())
+			if (!event.getCause().equals(event.getWarp().getOwner().getPlayer())
+					&& event.getWarp().getOwner().isOnline())
 				OfflineMessenger.getMessenger(PlayerWarpPlugin.getInstance()).message(event.getWarp().getOwner(),
 						ChatColor.RED + "Your warp '" + event.getWarp().getName() + "' was removed by an admin");
 		}
@@ -36,14 +37,14 @@ class WarpCreationDeletionListener implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onWarpCreatePreProcess(WarpCreatedEvent event) {
-		if (WarpConfig.warpCost > 0) {
+		if (WarpConfig.getWarpCost() > 0) {
 			Player player = (Player) event.getCause();
 			Economy eco = VaultLoader.getEconomy();
 
 			double balance = eco.getBalance(player);
-			if (balance < WarpConfig.warpCost) {
-				player.sendMessage(
-						ChatColor.RED + "You need " + eco.format(WarpConfig.warpCost - balance) + " to create a warp!");
+			if (balance < WarpConfig.getWarpCost()) {
+				player.sendMessage(ChatColor.RED + "You need " + eco.format(WarpConfig.getWarpCost() - balance)
+						+ " to create a warp!");
 				event.setCancelled(true);
 			}
 		}
@@ -55,11 +56,12 @@ class WarpCreationDeletionListener implements Listener {
 		if (event.isCancelled())
 			return;
 
-		if (WarpConfig.warpCost > 0) {
+		if (WarpConfig.getWarpCost() > 0) {
 			Player player = (Player) event.getCause();
 			Economy eco = VaultLoader.getEconomy();
-			eco.withdrawPlayer(player, WarpConfig.warpCost);
-			player.sendMessage(ChatColor.GREEN + eco.format(WarpConfig.warpCost) + " has been taken from your account");
+			eco.withdrawPlayer(player, WarpConfig.getWarpCost());
+			player.sendMessage(
+					ChatColor.GREEN + eco.format(WarpConfig.getWarpCost()) + " has been taken from your account");
 
 			WarpManager.getInstance().add(event.getWarp());
 

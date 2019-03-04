@@ -12,10 +12,10 @@ import jdz.bukkitUtils.commands.SubCommand;
 import jdz.bukkitUtils.commands.annotations.CommandLabel;
 import jdz.bukkitUtils.commands.annotations.CommandRequiredArgs;
 import jdz.bukkitUtils.commands.annotations.CommandUsage;
-import jdz.bukkitUtils.vault.VaultLoader;
+import jdz.bukkitUtils.pluginExtensions.vault.VaultLoader;
 import jdz.pwarp.PlayerWarpPlugin;
+import jdz.pwarp.config.RentConfig;
 import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpConfig;
 import jdz.pwarp.data.WarpManager;
 
 @CommandLabel("payall")
@@ -40,15 +40,15 @@ class RentPayAll extends SubCommand {
 		}
 
 		double totalCost = 0;
-		List<Integer> newDaysPaid = new ArrayList<Integer>();
+		List<Integer> newDaysPaid = new ArrayList<>();
 
 		for (PlayerWarp warp : warps) {
 			int thisWarpDays = daysToPay;
 			int totalDaysPaid = daysToPay + warp.getRentDaysPaid();
-			if (totalDaysPaid > WarpConfig.rentMaxDays)
-				thisWarpDays = WarpConfig.rentMaxDays - warp.getRentDaysPaid();
+			if (totalDaysPaid > RentConfig.getMaxDays())
+				thisWarpDays = RentConfig.getMaxDays() - warp.getRentDaysPaid();
 
-			totalCost += WarpConfig.rentCost * warp.getRentDaysPaid();
+			totalCost += RentConfig.getCost() * warp.getRentDaysPaid();
 			newDaysPaid.add(thisWarpDays + warp.getRentDaysPaid());
 		}
 

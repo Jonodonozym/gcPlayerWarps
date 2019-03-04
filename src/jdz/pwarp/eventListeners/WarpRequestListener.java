@@ -13,32 +13,31 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import jdz.bukkitUtils.misc.TimedTask;
+import jdz.pwarp.config.TeleportConfig;
 import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpConfig;
 import jdz.pwarp.events.WarpGoEvent;
 import jdz.pwarp.events.WarpRequestEvent;
 import net.md_5.bungee.api.ChatColor;
 
 class WarpRequestListener implements Listener {
-	private final Map<Player, Integer> timers = new HashMap<Player, Integer>();
-	private final Map<Player, Integer> cooldowns = new HashMap<Player, Integer>();
-	private final Map<Player, Location> locations = new HashMap<Player, Location>();
+	private final Map<Player, Integer> timers = new HashMap<>();
+	private final Map<Player, Integer> cooldowns = new HashMap<>();
+	private final Map<Player, Location> locations = new HashMap<>();
 
-	private final JavaPlugin plugin;
+	private final Plugin plugin;
 
-	public WarpRequestListener(JavaPlugin plugin) {
-		new TimedTask(plugin, 20, () -> {
+	public WarpRequestListener(Plugin plugin) {
+		Bukkit.getScheduler().runTaskTimer(plugin, () -> {
 			onSecond();
-		}).start();
+		}, 20, 20);
 		this.plugin = plugin;
 	}
 
 	private void onSecond() {
-		List<Player> toRemove = new ArrayList<Player>();
+		List<Player> toRemove = new ArrayList<>();
 
 		for (Player player : timers.keySet()) {
 			Location newLocation = player.getLocation();
@@ -84,11 +83,11 @@ class WarpRequestListener implements Listener {
 		Player player = (Player) event.getCause();
 		PlayerWarp warp = event.getWarp();
 
-		timers.put(player, WarpConfig.teleportWarmUp);
+		timers.put(player, TeleportConfig.getWarmUp());
 		locations.put(player, player.getLocation());
 
 		player.sendMessage(ChatColor.GREEN + "Teleporting you to " + warp.getOwner().getName() + "'s warp "
-				+ warp.getName() + " in " + WarpConfig.teleportWarmUp + "s");
+				+ warp.getName() + " in " + TeleportConfig.getWarmUp() + "s");
 
 		new BukkitRunnable() {
 			@Override
@@ -99,7 +98,7 @@ class WarpRequestListener implements Listener {
 					event.call();
 				}
 			}
-		}.runTaskLater(plugin, WarpConfig.teleportWarmUp * 20L);
+		}.runTaskLater(plugin, TeleportConfig.getWarmUp() * 20L);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -110,8 +109,8 @@ class WarpRequestListener implements Listener {
 		Player player = (Player) event.getCause();
 		PlayerWarp warp = event.getWarp();
 
-		if (!event.getCause().hasPermission("pwarp.nocooldown"))
-			cooldowns.put(player, WarpConfig.teleportCooldown);
+		if (!event.getCause().hasPermission(TeleportConfig.getNoCooldownPermission()))
+			cooldowns.put(player, TeleportConfig.getCooldown());
 
 		player.teleport(warp.getLocation().add(0, 1, 0));
 		player.sendMessage(ChatColor.GREEN + "Teleported you to "

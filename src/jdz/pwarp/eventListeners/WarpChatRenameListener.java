@@ -17,7 +17,7 @@ import jdz.pwarp.events.WarpRenamedEvent;
 class WarpChatRenameListener implements Listener {
 	public static WarpChatRenameListener instance;
 
-	private final Map<Player, PlayerWarp> nameDescisionListener = new HashMap<Player, PlayerWarp>();
+	private final Map<Player, PlayerWarp> nameDescisionListener = new HashMap<>();
 
 	public WarpChatRenameListener() {
 		instance = this;

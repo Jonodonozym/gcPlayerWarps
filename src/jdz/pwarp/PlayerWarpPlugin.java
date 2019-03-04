@@ -3,10 +3,14 @@ package jdz.pwarp;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import jdz.bukkitUtils.components.events.custom.ConfigReloadEvent;
 import jdz.bukkitUtils.fileIO.FileLogger;
 import jdz.pwarp.commands.AdminCommandExecutor;
 import jdz.pwarp.commands.PlayerCommandExecutor;
-import jdz.pwarp.data.WarpConfig;
+import jdz.pwarp.config.RentConfig;
+import jdz.pwarp.config.SafeWarpConfig;
+import jdz.pwarp.config.TeleportConfig;
+import jdz.pwarp.config.WarpConfig;
 import jdz.pwarp.data.WarpManager;
 import jdz.pwarp.eventListeners.PlayerWarpListeners;
 import jdz.pwarp.gui.PlayerWarpGuiMenu;
@@ -22,7 +26,9 @@ public class PlayerWarpPlugin extends JavaPlugin {
 		instance = this;
 		logger = new FileLogger(this);
 
-		WarpConfig.reloadConfig();
+		registerConfig();
+		new ConfigReloadEvent(this).call();
+
 		WarpManager.getInstance();
 
 		PlayerWarpListeners.register(this);
@@ -33,6 +39,13 @@ public class PlayerWarpPlugin extends JavaPlugin {
 		new AdminCommandExecutor().register();
 
 		new PlayerWarpGuiMenu(this);
+	}
+
+	private void registerConfig() {
+		new RentConfig(this).register();
+		new SafeWarpConfig(this).register();
+		new TeleportConfig(this).register();
+		new WarpConfig(this).register();
 	}
 
 }

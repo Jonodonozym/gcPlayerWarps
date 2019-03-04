@@ -4,7 +4,7 @@ package jdz.pwarp.events;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
-import jdz.bukkitUtils.events.Cancellable;
+import jdz.bukkitUtils.components.events.Cancellable;
 import jdz.pwarp.data.PlayerWarp;
 
 public class WarpCreatedEvent extends WarpEvent implements Cancellable {

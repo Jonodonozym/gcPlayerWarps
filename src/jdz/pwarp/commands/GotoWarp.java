@@ -27,7 +27,8 @@ class GotoWarp extends SubCommand {
 	public void execute(CommandSender sender, String... args) {
 		Player player = (Player) sender;
 
-		@SuppressWarnings("deprecation") OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+		@SuppressWarnings("deprecation")
+		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		if (target == null)
 			player.sendMessage(ChatColor.RED + args[0] + " has never logged in before!");
 		else if (args.length < 2)

@@ -3,7 +3,7 @@ package jdz.pwarp.events;
 
 import org.bukkit.command.CommandSender;
 
-import jdz.bukkitUtils.events.Event;
+import jdz.bukkitUtils.components.events.Event;
 import jdz.pwarp.data.PlayerWarp;
 
 public abstract class WarpEvent extends Event {
@@ -11,7 +11,7 @@ public abstract class WarpEvent extends Event {
 	private final PlayerWarp warp;
 
 	public WarpEvent(CommandSender player, PlayerWarp warp) {
-		this.cause = player;
+		cause = player;
 		this.warp = warp;
 	}
 

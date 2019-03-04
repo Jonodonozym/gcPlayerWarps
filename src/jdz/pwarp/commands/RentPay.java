@@ -9,10 +9,10 @@ import jdz.bukkitUtils.commands.SubCommand;
 import jdz.bukkitUtils.commands.annotations.CommandLabel;
 import jdz.bukkitUtils.commands.annotations.CommandRequiredArgs;
 import jdz.bukkitUtils.commands.annotations.CommandUsage;
-import jdz.bukkitUtils.vault.VaultLoader;
+import jdz.bukkitUtils.pluginExtensions.vault.VaultLoader;
 import jdz.pwarp.PlayerWarpPlugin;
+import jdz.pwarp.config.RentConfig;
 import jdz.pwarp.data.PlayerWarp;
-import jdz.pwarp.data.WarpConfig;
 import jdz.pwarp.data.WarpManager;
 
 @CommandLabel("pay")
@@ -44,17 +44,17 @@ class RentPay extends SubCommand {
 			return;
 		}
 
-		if (numDaysPaid >= WarpConfig.rentMaxDays) {
-			sender.sendMessage(ChatColor.RED + "You have already paid the maximum of " + WarpConfig.rentMaxDays
+		if (numDaysPaid >= RentConfig.getMaxDays()) {
+			sender.sendMessage(ChatColor.RED + "You have already paid the maximum of " + RentConfig.getMaxDays()
 					+ " days in advance");
 			return;
 		}
 
 		int totalDaysPaid = daysToPay + numDaysPaid;
-		if (totalDaysPaid > WarpConfig.rentMaxDays)
-			daysToPay = WarpConfig.rentMaxDays - numDaysPaid;
+		if (totalDaysPaid > RentConfig.getMaxDays())
+			daysToPay = RentConfig.getMaxDays() - numDaysPaid;
 
-		double required = WarpConfig.rentCost * daysToPay;
+		double required = RentConfig.getCost() * daysToPay;
 		double balance = VaultLoader.getEconomy().getBalance(player);
 		if (balance >= required) {
 			VaultLoader.getEconomy().withdrawPlayer(player, required);

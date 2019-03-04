@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import jdz.bukkitUtils.guiMenu.guis.GuiMenu;
-import jdz.bukkitUtils.guiMenu.itemStacks.ClickableStack;
+import jdz.bukkitUtils.components.guiMenu.guis.GuiMenu;
+import jdz.bukkitUtils.components.guiMenu.itemStacks.ClickableStack;
 import jdz.pwarp.data.PlayerWarp;
 import net.md_5.bungee.api.ChatColor;
 
@@ -18,15 +18,13 @@ class ClickableStackWarp extends ClickableStack {
 	protected final PlayerWarp warp;
 
 	public ClickableStackWarp(PlayerWarp warp) {
-		super(Material.SKULL_ITEM, ChatColor.AQUA + warp.getName(), Arrays.asList(
+		super(Material.PLAYER_HEAD, ChatColor.AQUA + warp.getName(), Arrays.asList(
 				ChatColor.GREEN + "Owner: " + warp.getOwner().getName(), "", ChatColor.GREEN + "Click to warp"));
 
 		this.warp = warp;
 
-		getStack().setDurability((short) 3);
-
 		SkullMeta skullMeta = (SkullMeta) getStack().getItemMeta();
-		skullMeta.setOwner(warp.getOwner().getName());
+		skullMeta.setOwningPlayer(warp.getOwner());
 
 		List<String> newLore = skullMeta.getLore();
 		for (String s : warp.getLore())

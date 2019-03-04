@@ -5,7 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
-import jdz.bukkitUtils.events.Cancellable;
+import jdz.bukkitUtils.components.events.Cancellable;
 import jdz.pwarp.data.PlayerWarp;
 
 public class WarpMovedEvent extends WarpEvent implements Cancellable {

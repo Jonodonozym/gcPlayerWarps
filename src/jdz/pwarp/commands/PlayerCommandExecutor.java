@@ -12,7 +12,7 @@ import jdz.pwarp.PlayerWarpPlugin;
 
 @CommandExecutorPlayerOnly
 public class PlayerCommandExecutor extends CommandExecutor {
-	private final List<SubCommand> commands = new ArrayList<SubCommand>();
+	private final List<SubCommand> commands = new ArrayList<>();
 
 	public PlayerCommandExecutor() {
 		super(PlayerWarpPlugin.getInstance(), "pwarp", true);

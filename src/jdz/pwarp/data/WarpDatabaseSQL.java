@@ -9,15 +9,16 @@ import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import jdz.bukkitUtils.fileIO.FileLogger;
-import jdz.bukkitUtils.misc.WorldUtils;
-import jdz.bukkitUtils.sql.SQLColumn;
-import jdz.bukkitUtils.sql.SQLColumnType;
-import jdz.bukkitUtils.sql.SQLRow;
-import jdz.bukkitUtils.sql.SqlDatabase;
+import jdz.bukkitUtils.persistence.SQLColumn;
+import jdz.bukkitUtils.persistence.SQLColumnType;
+import jdz.bukkitUtils.persistence.SQLRow;
+import jdz.bukkitUtils.persistence.minecraft.BukkitDatabase;
+import jdz.bukkitUtils.utils.WorldUtils;
 import jdz.pwarp.PlayerWarpPlugin;
+import jdz.pwarp.config.RentConfig;
 import lombok.Getter;
 
-public class WarpDatabaseSQL extends SqlDatabase implements WarpDatabase {
+public class WarpDatabaseSQL extends BukkitDatabase implements WarpDatabase {
 	@Getter private static final WarpDatabaseSQL instance = new WarpDatabaseSQL(PlayerWarpPlugin.getInstance());
 
 	private final String table = "gcPlayerWarps";
@@ -44,7 +45,7 @@ public class WarpDatabaseSQL extends SqlDatabase implements WarpDatabase {
 		String update = "INSERT INTO " + table + " (player, location, warpName, lore1, lore2, lore3, daysPaid) VALUES('"
 				+ warp.getOwner().getName() + "','" + WorldUtils.locationToString(warp.getLocation()) + "','"
 				+ warp.getName() + "','" + warp.getLore().get(0) + "','" + warp.getLore().get(1) + "','"
-				+ warp.getLore().get(2) + "'," + WarpConfig.rentFreeDays + ");";
+				+ warp.getLore().get(2) + "'," + RentConfig.getFreeDays() + ");";
 		updateAsync(update);
 	}
 
@@ -67,7 +68,7 @@ public class WarpDatabaseSQL extends SqlDatabase implements WarpDatabase {
 		String lore2 = row.get(startIndex++);
 		String lore3 = row.get(startIndex++);
 		int size = lore3.equals("") ? lore2.equals("") ? lore1.equals("") ? 0 : 1 : 2 : 3;
-		List<String> lore = new ArrayList<String>(size);
+		List<String> lore = new ArrayList<>(size);
 		if (size > 2)
 			lore.add(lore3);
 		if (size > 1)
@@ -99,8 +100,8 @@ public class WarpDatabaseSQL extends SqlDatabase implements WarpDatabase {
 
 	@Override
 	public void setRentDays(PlayerWarp warp, int daysPaid) {
-		if (daysPaid > WarpConfig.rentMaxDays)
-			daysPaid = WarpConfig.rentMaxDays;
+		if (daysPaid > RentConfig.getMaxDays())
+			daysPaid = RentConfig.getMaxDays();
 
 		String update = "UPDATE " + table + " SET daysPaid = " + daysPaid + " WHERE player = '"
 				+ warp.getOwner().getName() + "' AND warpName = '" + warp.getName() + "';";
@@ -124,7 +125,7 @@ public class WarpDatabaseSQL extends SqlDatabase implements WarpDatabase {
 		String query = "SELECT location, warpName, lore1, lore2, lore3, daysPaid, player FROM " + table;
 		List<SQLRow> result = query(query);
 
-		List<PlayerWarp> warps = new ArrayList<PlayerWarp>();
+		List<PlayerWarp> warps = new ArrayList<>();
 		for (SQLRow row : result)
 			warps.add(new PlayerWarp(Bukkit.getOfflinePlayer(row.get(6)), WorldUtils.locationFromString(row.get(0)),
 					row.get(1), getLores(row, 2), Integer.parseInt(row.get(5))));

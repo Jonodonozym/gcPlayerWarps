@@ -13,7 +13,7 @@ import jdz.pwarp.PlayerWarpPlugin;
 @CommandExecutorPlayerOnly
 @CommandExecutorPermission("pwarp.admin")
 public class AdminCommandExecutor extends CommandExecutor {
-	private List<SubCommand> commands = new ArrayList<SubCommand>();
+	private List<SubCommand> commands = new ArrayList<>();
 
 	public AdminCommandExecutor() {
 		super(PlayerWarpPlugin.getInstance(), "awarp", true);
@@ -21,7 +21,6 @@ public class AdminCommandExecutor extends CommandExecutor {
 		commands.add(new AdminSetWarp());
 		commands.add(new AdminDelWarp());
 		commands.add(new AdminListWarps());
-		commands.add(new AdminReloadConfig());
 	}
 
 	@Override

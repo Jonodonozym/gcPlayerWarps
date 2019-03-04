@@ -10,8 +10,8 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import jdz.bukkitUtils.guiMenu.guis.GuiMenu;
-import jdz.bukkitUtils.misc.Config;
+import jdz.bukkitUtils.components.guiMenu.guis.GuiMenu;
+import jdz.bukkitUtils.configuration.Config;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.eventListeners.PlayerWarpListeners;
@@ -23,7 +23,6 @@ public class ClickableStackWarpEditable extends ClickableStackWarp {
 		super(warp);
 		this.warp = warp;
 		getStack().setType(Material.PAPER);
-		getStack().setDurability((short) 0);
 
 		ItemMeta itemMeta = getStack().getItemMeta();
 

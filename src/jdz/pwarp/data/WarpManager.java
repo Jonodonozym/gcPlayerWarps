@@ -7,7 +7,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
-import jdz.bukkitUtils.vault.VaultLoader;
+import jdz.bukkitUtils.pluginExtensions.vault.VaultLoader;
 import jdz.pwarp.events.WarpRentExpiredEvent;
 import lombok.Getter;
 
@@ -35,7 +35,7 @@ public class WarpManager {
 	}
 
 	public List<PlayerWarp> getAll(OfflinePlayer owner) {
-		List<PlayerWarp> warps = new ArrayList<PlayerWarp>();
+		List<PlayerWarp> warps = new ArrayList<>();
 		for (PlayerWarp warp : this.warps)
 			if (warp.getOwner().equals(owner))
 				warps.add(warp);
@@ -74,7 +74,7 @@ public class WarpManager {
 	}
 
 	public void decreaseRentDays() {
-		List<PlayerWarp> noRentLeft = new ArrayList<PlayerWarp>();
+		List<PlayerWarp> noRentLeft = new ArrayList<>();
 		for (PlayerWarp warp : warps) {
 			warp.setRentDaysPaid(warp.getRentDaysPaid() - 1);
 			if (warp.getRentDaysPaid() < 0)

@@ -4,7 +4,7 @@ package jdz.pwarp.gui;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import jdz.bukkitUtils.guiMenu.guis.GuiMenuConfirmDialogue;
+import jdz.bukkitUtils.components.guiMenu.guis.GuiMenuConfirmDialogue;
 import jdz.pwarp.PlayerWarpPlugin;
 import jdz.pwarp.data.PlayerWarp;
 import jdz.pwarp.events.WarpDeletedEvent;

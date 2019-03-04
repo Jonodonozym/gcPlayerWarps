@@ -22,7 +22,8 @@ public class AdminSetWarp extends SubCommand {
 
 	@Override
 	public void execute(CommandSender sender, String... args) {
-		@SuppressWarnings("deprecation") OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+		@SuppressWarnings("deprecation")
+		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 		if (target == null)
 			sender.sendMessage(ChatColor.RED + args[0] + " has never logged in before");
 		else

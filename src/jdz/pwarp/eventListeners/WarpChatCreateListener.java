@@ -17,7 +17,7 @@ import jdz.pwarp.events.WarpCreatedEvent;
 class WarpChatCreateListener implements Listener {
 	public static WarpChatCreateListener instance;
 
-	private final Set<Player> nameDescisionListener = new HashSet<Player>();
+	private final Set<Player> nameDescisionListener = new HashSet<>();
 
 	public WarpChatCreateListener() {
 		instance = this;
