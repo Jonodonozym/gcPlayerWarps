@@ -45,7 +45,7 @@ class GuiMenuMyWarps extends GuiMenu {
 
 		setItem(backButton, 33, inventory);
 
-		int currentWarps = WarpManager.getInstance().getAll(player).size();
+		int currentWarps = myWarps.size();
 		int allowedWarps = WarpManager.getInstance().getNumWarpsAllowed(player);
 
 		setItem(new ClickableStackCreateWarp(player, allowedWarps > currentWarps), 35, inventory);

@@ -41,11 +41,9 @@ public class ClickableStackWarpEditable extends ClickableStackWarp {
 	}
 
 	@Override
-	public void onClick(GuiMenu menu, InventoryClickEvent event) {
-		Player player = (Player) event.getWhoClicked();
-
+	public void onClick(Player player, GuiMenu menu, InventoryClickEvent event) {
 		if (event.getClick() == ClickType.LEFT)
-			super.onClick(menu, event);
+			super.onClick(player, menu, event);
 		if (event.getClick() == ClickType.MIDDLE) {
 			player.closeInventory();
 			PlayerWarpListeners.addRenameChatPlayer(player, warp);

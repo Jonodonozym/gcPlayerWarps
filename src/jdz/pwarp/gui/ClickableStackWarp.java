@@ -38,8 +38,7 @@ class ClickableStackWarp extends ClickableStack {
 	}
 
 	@Override
-	public void onClick(GuiMenu menu, InventoryClickEvent event) {
-		Player player = (Player) event.getWhoClicked();
+	public void onClick(Player player, GuiMenu menu, InventoryClickEvent event) {
 		player.closeInventory();
 		warp.warp(player);
 	}

@@ -14,7 +14,6 @@ import jdz.pwarp.eventListeners.PlayerWarpListeners;
 import net.md_5.bungee.api.ChatColor;
 
 class ClickableStackCreateWarp extends ClickableStack {
-	private final Player player;
 	private final boolean canCreate;
 
 	public ClickableStackCreateWarp(Player player, boolean canCreate) {
@@ -24,17 +23,18 @@ class ClickableStackCreateWarp extends ClickableStack {
 								- WarpManager.getInstance().getAll(player).size())
 						+ ChatColor.RESET + ChatColor.AQUA + " more warps"));
 
-		this.player = player;
 		this.canCreate = canCreate;
 
-		if (!canCreate)
-			setInfo(Material.BARRIER, ChatColor.RED + "Can't create any more warps",
-					Arrays.asList(ChatColor.YELLOW + "Delete another warp to create more,",
-							ChatColor.YELLOW + "or move existing ones"));
+		if (!canCreate) {
+			setMaterial(Material.BARRIER);
+			setName(ChatColor.RED + "Can't create any more warps");
+			setLore(Arrays.asList(ChatColor.YELLOW + "Delete another warp to create more,",
+					ChatColor.YELLOW + "or move existing ones"));
+		}
 	}
 
 	@Override
-	public void onClick(GuiMenu menu, InventoryClickEvent event) {
+	public void onClick(Player player, GuiMenu menu, InventoryClickEvent event) {
 		if (canCreate) {
 			player.closeInventory();
 			PlayerWarpListeners.addCreateChatPlayer(player);

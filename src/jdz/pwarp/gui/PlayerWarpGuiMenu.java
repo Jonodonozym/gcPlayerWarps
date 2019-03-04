@@ -55,8 +55,8 @@ public class PlayerWarpGuiMenu extends GuiMenu {
 			ClickableStack toMyWarpsMenu = new ClickableStackLinkedMenu(Material.ENDER_CHEST,
 					ChatColor.GREEN + "My Warps", listMenu) {
 				@Override
-				public void onClick(GuiMenu menu, InventoryClickEvent event) {
-					new GuiMenuMyWarps((Player) event.getWhoClicked(), instance).open((Player) event.getWhoClicked());
+				public void onClick(Player player, GuiMenu menu, InventoryClickEvent event) {
+					new GuiMenuMyWarps(player, instance).open(player);
 				}
 			};
 
