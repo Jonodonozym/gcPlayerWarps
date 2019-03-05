@@ -18,7 +18,7 @@ public class RentCheckerTask extends AutoConfig {
 	private Date lastCheck = new Date();
 
 	public RentCheckerTask(PlayerWarpPlugin plugin) {
-		super(plugin);
+		super(plugin, "Rent");
 		register();
 		reloadConfig();
 
