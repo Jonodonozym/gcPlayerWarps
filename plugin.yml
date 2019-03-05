@@ -5,6 +5,7 @@ author: Jonodonozym
 description: Allows players to create warps for public use
 softdepend: [ASkyBlock,PlotSquared,GriefPrevention]
 depend: [Vault, JBU]
+api-version: 1.13
 
 commands:
   pwarp:
