@@ -13,7 +13,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="D:/User/git/^^Libs/Minecraft Plugins/askyblock.jar"/>
 	<classpathentry kind="lib" path="D:/User/git/^^Libs/Minecraft Plugins/GriefPrevention.jar"/>
-	<classpathentry kind="lib" path="D:/User/git/^^Libs/Minecraft Plugins/JBU - 1.13.jar"/>
 	<classpathentry kind="lib" path="D:/User/git/^^Libs/Minecraft Plugins/PlotSquared.jar"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
