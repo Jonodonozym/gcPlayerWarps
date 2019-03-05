@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.bukkit.plugin.Plugin;
 
-import jdz.bukkitUtils.components.events.custom.ConfigReloadEvent;
 import jdz.bukkitUtils.configuration.AutoConfig;
 import lombok.Getter;
 
@@ -30,8 +29,8 @@ public class WarpConfig extends AutoConfig {
 	}
 
 	@Override
-	public void onConfigReload(ConfigReloadEvent event) {
-		super.onConfigReload(event);
+	public void reloadConfig() {
+		super.reloadConfig();
 		loreLineWidth = maxLoreSize / 3;
 	}
 }

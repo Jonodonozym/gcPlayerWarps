@@ -3,7 +3,6 @@ package jdz.pwarp;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import jdz.bukkitUtils.components.events.custom.ConfigReloadEvent;
 import jdz.bukkitUtils.fileIO.FileLogger;
 import jdz.pwarp.commands.AdminCommandExecutor;
 import jdz.pwarp.commands.PlayerCommandExecutor;
@@ -27,7 +26,6 @@ public class PlayerWarpPlugin extends JavaPlugin {
 		logger = new FileLogger(this);
 
 		registerConfig();
-		new ConfigReloadEvent(this).call();
 
 		WarpManager.getInstance();
 
